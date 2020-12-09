@@ -1,8 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -14,6 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
@@ -31,7 +32,7 @@ import java.util.Calendar;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class CustomActionsActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -51,6 +52,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
         initializationAnimationView = findViewById(R.id.initializationAnimationView);
         loadingProgressBar = findViewById(R.id.loadingProgressBar);
 
+        LLConfiguration.Companion.getSingleton().setCustomActionsFilePathRelativeToAssetsDir("locuslabs/LLCustomActions.json");
         initLocusMaps();
         initInitializationProgressIndicator();
         showInitializationProgressIndicator();
@@ -89,8 +91,6 @@ public class FullscreenMapActivity extends AppCompatActivity {
                 new LLOnProgressListener() {
                     @Override
                     public void onProgressUpdate(double fractionComplete, String progressDescription) {
-
-                        // Map Ready
                         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
                             hideInitializationProgressIndicator();

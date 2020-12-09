@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,9 @@ import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLPOI;
+import com.locuslabs.sdk.llpublic.LLPOIExtraButtonHandler;
+import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
@@ -31,7 +35,7 @@ import java.util.Calendar;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class POIShowActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -143,6 +147,8 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        // Show POI 870, which is the Starbucks near gate 60 at LAX
+        llLocusMapsFragment.showPOI("870");
     }
 
     private void initInitializationProgressIndicator() {

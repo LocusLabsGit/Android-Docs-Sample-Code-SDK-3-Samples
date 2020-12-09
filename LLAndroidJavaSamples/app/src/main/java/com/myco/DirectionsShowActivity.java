@@ -1,8 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -14,8 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
+import com.locuslabs.sdk.llpublic.LLNavAccessibilityType;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
@@ -26,12 +27,16 @@ import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
 import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class DirectionsShowActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -143,6 +148,8 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        Map<String, List<String>> securityQueueTypes = new HashMap<>();
+        llLocusMapsFragment.showDirections("1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes);
     }
 
     private void initInitializationProgressIndicator() {

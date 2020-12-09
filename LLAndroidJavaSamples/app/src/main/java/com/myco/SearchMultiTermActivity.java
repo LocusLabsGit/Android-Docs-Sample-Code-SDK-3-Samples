@@ -1,8 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -14,24 +11,35 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetSearchResultsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLPOI;
+import com.locuslabs.sdk.llpublic.LLPOIDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
 import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class SearchMultiTermActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -142,6 +150,86 @@ public class FullscreenMapActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        boolean performANDSearch = true;
+        boolean performORSearch = false;
+
+        LLPOIDatabase poiDatabase = new LLPOIDatabase();
+
+        if (performANDSearch) {
+
+            List<String> searchTerms = new ArrayList<>();
+            searchTerms.add("Beer");
+            searchTerms.add("Burger");
+
+            poiDatabase.getSearchResults("lax", Collections.singletonList(searchTerms), null, null, null, Locale.getDefault(), new LLOnGetSearchResultsCallback() {
+                @Override
+                public void successCallback(List<LLPOI> list) {
+
+                    String message = "";
+                    int count = 0;
+
+                    for (LLPOI poi: list) {
+
+                        message = message +poi.getName() +"\n";
+                        count++;
+                    }
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchMultiTermActivity.this);
+                    dialog.setMessage(message);
+                    dialog.setTitle("AND Search Results (" +String.valueOf(count) +")");
+                    dialog.setPositiveButton("OK", null);
+                    dialog.create().show();
+                }
+
+                @Override
+                public void failureCallback(Throwable throwable) {
+
+                    // Handle any error
+                }
+            });
+        }
+
+        if (performORSearch) {
+
+            List<String> searchTerms1 = new ArrayList<>();
+            searchTerms1.add("Beer");
+
+            List<String> searchTerms2 = new ArrayList<>();
+            searchTerms2.add("Burger");
+
+            List<List<String>> searchTerms = new ArrayList<>();
+            searchTerms.add(searchTerms1);
+            searchTerms.add(searchTerms2);
+
+            poiDatabase.getSearchResults("lax", searchTerms, null, null, null, Locale.getDefault(), new LLOnGetSearchResultsCallback() {
+                @Override
+                public void successCallback(List<LLPOI> list) {
+
+                    String message = "";
+                    int count = 0;
+
+                    for (LLPOI poi: list) {
+
+                        message = message +poi.getName() +"\n";
+                        count++;
+                    }
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchMultiTermActivity.this);
+                    dialog.setMessage(message);
+                    dialog.setTitle("OR Search Results (" +String.valueOf(count) +")");
+                    dialog.setPositiveButton("OK", null);
+                    dialog.create().show();
+                }
+
+                @Override
+                public void failureCallback(Throwable throwable) {
+
+                    // Handle any error
+                }
+            });
+        }
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.myco;
 
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +43,22 @@ public class SampleListActivity extends AppCompatActivity {
 
         samplesArray.add("Fullscreen Map");
         samplesArray.add("Embedded Map");
+        samplesArray.add("Bundled Map");
+        samplesArray.add("Custom Actions");
+        samplesArray.add("Custom Theme");
+        samplesArray.add("Directions Show");
+        samplesArray.add("Directions - Steps & ETA");
+        samplesArray.add("Headless Mode");
+        samplesArray.add("Map Basics");
+        samplesArray.add("Markers");
+        samplesArray.add("POI Button");
+        samplesArray.add("POI Show");
+        samplesArray.add("Search Auto Display");
+        samplesArray.add("Search Categories");
+        samplesArray.add("Search General");
+        samplesArray.add("Search MultiTerm");
+        samplesArray.add("Search Proximity");
+        samplesArray.add("Venue Data");
 
         ListView samplesLV = findViewById(R.id.samplesLV);
         SamplesAdapter samplesAdapter = new SamplesAdapter(this);
@@ -56,6 +72,22 @@ public class SampleListActivity extends AppCompatActivity {
                 Intent intent = null;
                 if (sampleTitle.equals("Fullscreen Map")) intent = new Intent(SampleListActivity.this, FullscreenMapActivity.class);
                 else if (sampleTitle.equals("Embedded Map")) intent = new Intent(SampleListActivity.this, EmbeddedMapActivity.class);
+                else if (sampleTitle.equals("Bundled Map")) intent = new Intent(SampleListActivity.this, BundledMapActivity.class);
+                else if (sampleTitle.equals("Custom Actions")) intent = new Intent(SampleListActivity.this, CustomActionsActivity.class);
+                else if (sampleTitle.equals("Custom Theme")) intent = new Intent(SampleListActivity.this, CustomThemeActivity.class);
+                else if (sampleTitle.equals("Directions Show")) intent = new Intent(SampleListActivity.this, DirectionsShowActivity.class);
+                else if (sampleTitle.equals("Directions - Steps & ETA")) intent = new Intent(SampleListActivity.this, DirectionsStepsETAActivity.class);
+                else if (sampleTitle.equals("Headless Mode")) intent = new Intent(SampleListActivity.this, HeadlessModeActivity.class);
+                else if (sampleTitle.equals("Map Basics")) intent = new Intent(SampleListActivity.this, MapBasicsActivity.class);
+                else if (sampleTitle.equals("Markers")) intent = new Intent(SampleListActivity.this, MarkersActivity.class);
+                else if (sampleTitle.equals("POI Button")) intent = new Intent(SampleListActivity.this, POIButtonActivity.class);
+                else if (sampleTitle.equals("POI Show")) intent = new Intent(SampleListActivity.this, POIShowActivity.class);
+                else if (sampleTitle.equals("Search Auto Display")) intent = new Intent(SampleListActivity.this, SearchAutoDisplayActivity.class);
+                else if (sampleTitle.equals("Search Categories")) intent = new Intent(SampleListActivity.this, SearchCategoriesActivity.class);
+                else if (sampleTitle.equals("Search General")) intent = new Intent(SampleListActivity.this, SearchGeneralActivity.class);
+                else if (sampleTitle.equals("Search MultiTerm")) intent = new Intent(SampleListActivity.this, SearchMultiTermActivity.class);
+                else if (sampleTitle.equals("Search Proximity")) intent = new Intent(SampleListActivity.this, SearchProximityActivity.class);
+                else if (sampleTitle.equals("Venue Data")) intent = new Intent(SampleListActivity.this, VenueDataActivity.class);
 
                 startActivity(intent);
 

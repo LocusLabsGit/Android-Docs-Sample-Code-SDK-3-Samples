@@ -1,8 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -14,13 +11,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.locuslabs.sdk.llprivate.Building;
+import com.locuslabs.sdk.llprivate.Level;
+import com.locuslabs.sdk.llpublic.LLBuilding;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
+import com.locuslabs.sdk.llpublic.LLLevel;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetPOIDetailsCallback;
+import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLPOI;
+import com.locuslabs.sdk.llpublic.LLPOIDatabase;
+import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
@@ -31,7 +41,7 @@ import java.util.Calendar;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class VenueDataActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -143,6 +153,72 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        getVenues();
+        getVenueDetails("lax");
+    }
+
+    private void getVenues() {
+
+        LLVenueDatabase venueDB = new LLVenueDatabase();
+        venueDB.getVenueList(new LLOnGetVenueListCallback() {
+            @Override
+            public void successCallback(LLVenueList llVenueList) {
+
+                String message = "";
+
+                for (Object venueID: llVenueList.getKeys()) {
+
+                    LLVenueListEntry  venueListEntry = (LLVenueListEntry) llVenueList.get(venueID);
+                    message = message +venueListEntry.getName() +"\n";
+                }
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(VenueDataActivity.this);
+                dialog.setMessage(message);
+                dialog.setTitle("Account venues: (" +String.valueOf(llVenueList.size()) +")");
+                dialog.setPositiveButton("OK", null);
+                dialog.create().show();
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+            }
+        });
+    }
+
+    private void getVenueDetails(String venueID) {
+
+        LLVenueDatabase venueDB = new LLVenueDatabase();
+        venueDB.getVenueDetails(venueID, new LLOnGetVenueDetailsCallback() {
+            @Override
+            public void successCallback(LLVenue llVenue) {
+
+                String message = "";
+
+                for (Building building: llVenue.getBuildings()) {
+
+                    message = message +"Building name: " +building.getName() +"\nBuilding id: " +building.getId() +"\n";
+
+                    for (Level level: building.getLevels()) {
+
+                        message = message +"Floor level: " +String.valueOf(level.getOrdinal()) +"\nFloor id: " +level.getId() +"\n";
+                    }
+
+                    message = message +"\n";
+                }
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(VenueDataActivity.this);
+                dialog.setMessage(message);
+                dialog.setTitle("LAX venue details:");
+                dialog.setPositiveButton("OK", null);
+                dialog.create().show();
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+            }
+        });
     }
 
     private void initInitializationProgressIndicator() {
