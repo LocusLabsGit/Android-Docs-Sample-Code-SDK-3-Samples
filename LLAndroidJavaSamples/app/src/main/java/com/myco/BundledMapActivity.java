@@ -1,7 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -13,25 +11,35 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
+import com.locuslabs.sdk.llpublic.LLMapPackFinder;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLOnUnpackCallback;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
 import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class BundledMapActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -52,14 +60,43 @@ public class FullscreenMapActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loadingProgressBar);
 
         initLocusMaps();
+        Log.d("xxx", "x-1");
         initInitializationProgressIndicator();
         showInitializationProgressIndicator();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
 
+        super.onResume();
+        unpackMapPacksAndLoadVenue();
+    }
+
+    private void unpackMapPacksAndLoadVenue() {
+
+        List<String> accountIdsForMapPacks = new ArrayList<String>();
+
+        accountIdsForMapPacks.add(LLConfiguration.Companion.getSingleton().getAccountID());
+        for (int i = 0; i < accountIdsForMapPacks.size(); i++) {
+            String accountIdsForMapPack = accountIdsForMapPacks.get(i);
+
+            LLOnUnpackCallback callback = new LLOnUnpackCallback() {
+                @Override
+                public void onUnpack(boolean b, Throwable throwable) {
+                    if (throwable != null) {
+                        Log.e("Log", "MapPack installation failed because: " +
+                                throwable.getMessage());
+                    } else {
+                        loadVenueListThenShowVenue();
+                    }
+                }
+            };
+
+            LLMapPackFinder.Companion.installMapPack(accountIdsForMapPack, null, callback);
+        }
+    }
+
+    private void loadVenueListThenShowVenue() {
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -69,17 +106,23 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
                 LLVenueListEntry llVenueListEntry = llVenueList.get(llVenueID);
 
-                String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
-                LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
-
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                showVenue(llVenueID, llVenueListEntry);
             }
 
             @Override
             public void failureCallback(@NonNull Throwable throwable) {
-                // Failed to get venue list
+                Toast.makeText(getApplicationContext(), "Failed to get venue list because |" + Log.getStackTraceString(throwable) + "|", Toast.LENGTH_LONG).show();
+                Log.e("Log", "Failed to get venue list because stack trace: " + Log.getStackTraceString(throwable));
+                Log.e("Log", "Failed to get venue list because stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
             }
         });
+    }
+
+    private void showVenue(String llVenueID, LLVenueListEntry llVenueListEntry) {
+        String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
+        LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
+
+        llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
     }
 
     private void initLocusMaps() {
@@ -89,8 +132,6 @@ public class FullscreenMapActivity extends AppCompatActivity {
                 new LLOnProgressListener() {
                     @Override
                     public void onProgressUpdate(double fractionComplete, String progressDescription) {
-
-                        // Map Ready
                         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
                             hideInitializationProgressIndicator();
@@ -130,7 +171,6 @@ public class FullscreenMapActivity extends AppCompatActivity {
                     }
                 }
         );
-
 
         LLDependencyInjector.Companion.getSingleton().setOnFailureListener(new LLOnFailureListener() {
             @Override

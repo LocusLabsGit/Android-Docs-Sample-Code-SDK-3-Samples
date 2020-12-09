@@ -1,0 +1,11 @@
+{
+  "places": [
+    {
+    "behavior": "search",
+    "value": "coffee",
+    "name": "Search Coffee",
+    "icon": "ll_places_icon_coffee.png",
+    "normalColor": "290d0a"
+    }
+  ]
+}

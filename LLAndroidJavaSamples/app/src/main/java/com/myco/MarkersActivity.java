@@ -1,8 +1,5 @@
 package com.myco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -14,13 +11,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetPOIDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLPOI;
+import com.locuslabs.sdk.llpublic.LLPOIDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
@@ -31,7 +34,7 @@ import java.util.Calendar;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class FullscreenMapActivity extends AppCompatActivity {
+public class MarkersActivity extends AppCompatActivity {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -143,6 +146,20 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        // Add marker to the Starbucks close to Gate 60 using the following code:
+        LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
+        llpoiDatabase.getPOIDetails("lax", "870", new LLOnGetPOIDetailsCallback() {
+            @Override
+            public void successCallback(LLPOI llpoi) {
+
+               // llLocusMapsFragment.showMarker("MarkerID", llpoi.getLevel().getId(), );
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+            }
+        });
     }
 
     private void initInitializationProgressIndicator() {

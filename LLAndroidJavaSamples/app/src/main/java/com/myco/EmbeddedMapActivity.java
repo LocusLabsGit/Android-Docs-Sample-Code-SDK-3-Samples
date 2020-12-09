@@ -14,17 +14,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.locuslabs.sdk.llprotected.LLOnGetVenueListCallback;
-import com.locuslabs.sdk.llprotected.LLVenueDatabase;
-import com.locuslabs.sdk.llprotected.LLVenueFiles;
-import com.locuslabs.sdk.llprotected.LLVenueList;
-import com.locuslabs.sdk.llprotected.LLVenueListEntry;
+
+import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLVenueDatabase;
+import com.locuslabs.sdk.llpublic.LLVenueFiles;
+import com.locuslabs.sdk.llpublic.LLVenueList;
+import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
 import java.util.Calendar;
 
@@ -83,6 +85,10 @@ public class EmbeddedMapActivity extends AppCompatActivity {
     }
 
     private void initLocusMaps() {
+
+        // Hide map UI elements
+        LLConfiguration.Companion.getSingleton().setHideMapControls(true);
+
         llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(
@@ -90,7 +96,9 @@ public class EmbeddedMapActivity extends AppCompatActivity {
                     @Override
                     public void onProgressUpdate(double fractionComplete, String progressDescription) {
                         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
+
                             hideInitializationProgressIndicator();
+                            mapReady();
                         }
                     }
                 }
@@ -134,6 +142,10 @@ public class EmbeddedMapActivity extends AppCompatActivity {
                 Log.e("LOG", "stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
             }
         });
+    }
+
+    private void mapReady() {
+
     }
 
     private void initInitializationProgressIndicator() {
