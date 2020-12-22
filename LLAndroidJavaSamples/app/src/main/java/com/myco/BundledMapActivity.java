@@ -60,7 +60,6 @@ public class BundledMapActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loadingProgressBar);
 
         initLocusMaps();
-        Log.d("xxx", "x-1");
         initInitializationProgressIndicator();
         showInitializationProgressIndicator();
     }
@@ -122,7 +121,7 @@ public class BundledMapActivity extends AppCompatActivity {
         String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
         LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-        llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+        llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
     }
 
     private void initLocusMaps() {

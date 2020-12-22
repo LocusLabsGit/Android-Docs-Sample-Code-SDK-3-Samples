@@ -77,7 +77,7 @@ public class DirectionsShowActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -149,6 +149,10 @@ public class DirectionsShowActivity extends AppCompatActivity {
     private void mapReady() {
 
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
+//        Set security lane preferences, if any
+//        List<String> laneTypes = new ArrayList<>();
+//        laneTypes.add("general");
+//        securityQueueTypes.put("SecurityLane", laneTypes);
         llLocusMapsFragment.showDirections("1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes);
     }
 

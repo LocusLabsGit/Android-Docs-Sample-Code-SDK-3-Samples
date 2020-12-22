@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
@@ -72,7 +73,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -83,6 +84,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
     }
 
     private void initLocusMaps() {
+
         llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(

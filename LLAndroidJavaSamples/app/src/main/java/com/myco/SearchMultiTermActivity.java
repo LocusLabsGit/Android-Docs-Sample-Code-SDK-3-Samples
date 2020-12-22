@@ -80,7 +80,7 @@ public class SearchMultiTermActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
