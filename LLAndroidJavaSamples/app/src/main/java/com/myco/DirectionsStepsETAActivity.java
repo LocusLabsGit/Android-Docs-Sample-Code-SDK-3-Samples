@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
@@ -81,7 +82,7 @@ public class DirectionsStepsETAActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -159,17 +160,28 @@ public class DirectionsStepsETAActivity extends AppCompatActivity {
             @Override
             public void successCallback(LLNavPath llNavPath) {
 
-                Log.d("Log", "Obtained directions with eta:" +llNavPath.toString());
+                String message = "ETA(secs): " +llNavPath.transitTime() +"\n\nSegments:\n\n";
+
                 for (LLSegment segment: llNavPath.segments(Locale.getDefault())) {
 
-                    Log.d("Log","Direction segment:" +segment.toString());
+                    message = message +segment.toString() +"\n\n";
                 }
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DirectionsStepsETAActivity.this);
+                dialog.setMessage(message);
+                dialog.setTitle("Obtained Directions");
+                dialog.setPositiveButton("OK", null);
+                dialog.create().show();
             }
 
             @Override
             public void failureCallback(Throwable throwable) {
 
-                Log.d("Log", "Directions failure:" +throwable.getLocalizedMessage());
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DirectionsStepsETAActivity.this);
+                dialog.setMessage(throwable.getLocalizedMessage());
+                dialog.setTitle("Directions Error");
+                dialog.setPositiveButton("OK", null);
+                dialog.create().show();
             }
         });
     }

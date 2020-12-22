@@ -1,6 +1,8 @@
 package com.myco;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -75,7 +77,7 @@ public class MarkersActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -134,7 +136,6 @@ public class MarkersActivity extends AppCompatActivity {
                 }
         );
 
-
         LLDependencyInjector.Companion.getSingleton().setOnFailureListener(new LLOnFailureListener() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -152,7 +153,8 @@ public class MarkersActivity extends AppCompatActivity {
             @Override
             public void successCallback(LLPOI llpoi) {
 
-               // llLocusMapsFragment.showMarker("MarkerID", llpoi.getLevel().getId(), );
+                Bitmap markerImage = BitmapFactory.decodeResource(getResources(), R.drawable.starbucks);
+                llLocusMapsFragment.showMarker("MarkerID", llpoi.getLevel().getId(), llpoi.getLatLng(), markerImage);
             }
 
             @Override
@@ -163,6 +165,7 @@ public class MarkersActivity extends AppCompatActivity {
     }
 
     private void initInitializationProgressIndicator() {
+
         initializationAnimationView.setBackgroundResource(R.drawable.ll_navigation_loading_animation);
         initializationAnimationDrawable = (AnimationDrawable) initializationAnimationView.getBackground();
         initializationAnimationDrawable.start();

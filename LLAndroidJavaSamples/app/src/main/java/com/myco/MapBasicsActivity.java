@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLatLng;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
@@ -73,7 +74,7 @@ public class MapBasicsActivity extends AppCompatActivity {
                 String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
                 LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
-                llLocusMapsFragment.loadVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
+                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -84,6 +85,8 @@ public class MapBasicsActivity extends AppCompatActivity {
     }
 
     private void initLocusMaps() {
+
+        LLConfiguration.Companion.getSingleton().setPreventInitialPanAndZoom(true);
         llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(
@@ -142,19 +145,9 @@ public class MapBasicsActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
-Log.d("log", "qqq3");
-        // Set the center of the map to Terminal 5 and zoom in
-        //llLocusMapsFragment.setCurrentLocation(new LLLatLng(33.9411, -118.4044), "lax-south-departures");
-        llLocusMapsFragment.changeMapParams(new LLLatLng(33.9411, -118.4044), "lax-south-departures", 190);
-        //llLocusMapsFragment.changeMapParams(new LLLatLng(33.9411, -118.4044), "lax-south-lounges", 190);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                llLocusMapsFragment.changeMapParams(new LLLatLng(33.9411, -118.4044), "lax-south-departures", 190);
-            }
-        }, 2000);
-
+        // Set the center of the map to Terminal 5, zoom in and change the floor
+        llLocusMapsFragment.changeMapParams(new LLLatLng(33.9411, -118.4044), "lax-south-lounges", 190);
     }
 
     private void initInitializationProgressIndicator() {
