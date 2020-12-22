@@ -48,6 +48,7 @@ public class SampleListActivity extends AppCompatActivity {
         samplesArray.add("Custom Theme");
         samplesArray.add("Directions Show");
         samplesArray.add("Directions - Steps & ETA");
+        samplesArray.add("Grab");
         samplesArray.add("Headless Mode");
         samplesArray.add("Map Basics");
         samplesArray.add("Markers");
@@ -77,6 +78,7 @@ public class SampleListActivity extends AppCompatActivity {
                 else if (sampleTitle.equals("Custom Theme")) intent = new Intent(SampleListActivity.this, CustomThemeActivity.class);
                 else if (sampleTitle.equals("Directions Show")) intent = new Intent(SampleListActivity.this, DirectionsShowActivity.class);
                 else if (sampleTitle.equals("Directions - Steps & ETA")) intent = new Intent(SampleListActivity.this, DirectionsStepsETAActivity.class);
+                else if (sampleTitle.equals("Grab")) intent = new Intent(SampleListActivity.this, GrabMapActivity.class);
                 else if (sampleTitle.equals("Headless Mode")) intent = new Intent(SampleListActivity.this, HeadlessModeActivity.class);
                 else if (sampleTitle.equals("Map Basics")) intent = new Intent(SampleListActivity.this, MapBasicsActivity.class);
                 else if (sampleTitle.equals("Markers")) intent = new Intent(SampleListActivity.this, MarkersActivity.class);
