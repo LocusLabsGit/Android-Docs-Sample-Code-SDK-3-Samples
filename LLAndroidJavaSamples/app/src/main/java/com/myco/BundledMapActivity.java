@@ -118,6 +118,7 @@ public class BundledMapActivity extends AppCompatActivity {
     }
 
     private void showVenue(String llVenueID, LLVenueListEntry llVenueListEntry) {
+
         String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
         LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
 
@@ -174,6 +175,7 @@ public class BundledMapActivity extends AppCompatActivity {
         LLDependencyInjector.Companion.getSingleton().setOnFailureListener(new LLOnFailureListener() {
             @Override
             public void onFailure(Throwable throwable) {
+                Log.d("ccc", "Map load failed");
                 Log.e("LOG", "stack trace: " + Log.getStackTraceString(throwable));
                 Log.e("LOG", "stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
             }
