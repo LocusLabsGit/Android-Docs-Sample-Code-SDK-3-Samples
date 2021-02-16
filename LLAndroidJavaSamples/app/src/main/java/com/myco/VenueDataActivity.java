@@ -19,6 +19,7 @@ import com.locuslabs.sdk.llprivate.Building;
 import com.locuslabs.sdk.llprivate.Level;
 import com.locuslabs.sdk.llpublic.LLBuilding;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
+import com.locuslabs.sdk.llpublic.LLIsVenueAvailableOnDeviceCallback;
 import com.locuslabs.sdk.llpublic.LLLevel;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
@@ -49,6 +50,7 @@ public class VenueDataActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,9 @@ public class VenueDataActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
+
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
             public void successCallback(@NonNull LLVenueList llVenueList) {
@@ -153,6 +157,7 @@ public class VenueDataActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        mapLoaded = true;
         getVenues();
         getVenueDetails("lax");
     }

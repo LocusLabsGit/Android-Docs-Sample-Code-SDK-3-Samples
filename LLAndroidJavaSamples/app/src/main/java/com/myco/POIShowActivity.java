@@ -43,6 +43,7 @@ public class POIShowActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class POIShowActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -146,6 +148,8 @@ public class POIShowActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        mapLoaded = true;
 
         // Show POI 870, which is the Starbucks near gate 60 at LAX
         llLocusMapsFragment.showPOI("870");

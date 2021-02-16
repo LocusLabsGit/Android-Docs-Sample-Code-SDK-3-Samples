@@ -47,6 +47,7 @@ public class SearchProximityActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class SearchProximityActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -150,7 +152,9 @@ public class SearchProximityActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
-Log.d("log", "ddd1 sp");
+
+        mapLoaded = true;
+
         LLPOIDatabase poiDatabase = new LLPOIDatabase();
         List<String> searchTerms = new ArrayList<>();
         searchTerms.add("Starbucks");

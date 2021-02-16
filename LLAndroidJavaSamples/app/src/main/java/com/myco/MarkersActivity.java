@@ -44,6 +44,7 @@ public class MarkersActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MarkersActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -146,6 +148,8 @@ public class MarkersActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        mapLoaded = true;
 
         // Add marker to the Starbucks close to Gate 60 using the following code:
         LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
