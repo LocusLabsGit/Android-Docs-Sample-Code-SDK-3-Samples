@@ -41,6 +41,7 @@ public class MapBasicsActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class MapBasicsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -145,6 +147,8 @@ public class MapBasicsActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        mapLoaded = true;
 
         // Set the center of the map to Terminal 5, zoom in and change the floor
         llLocusMapsFragment.changeMapParams(new LLLatLng(33.9411, -118.4044), "lax-south-lounges", 190);

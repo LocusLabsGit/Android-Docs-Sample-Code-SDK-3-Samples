@@ -48,6 +48,7 @@ public class SearchGeneralActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class SearchGeneralActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -151,6 +153,8 @@ public class SearchGeneralActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        mapLoaded = true;
 
         LLPOIDatabase poiDatabase = new LLPOIDatabase();
         List<String> searchTerms = new ArrayList<>();

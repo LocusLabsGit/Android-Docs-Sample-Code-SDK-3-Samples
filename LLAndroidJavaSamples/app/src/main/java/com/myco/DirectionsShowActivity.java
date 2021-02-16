@@ -44,6 +44,7 @@ public class DirectionsShowActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class DirectionsShowActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
@@ -147,6 +149,8 @@ public class DirectionsShowActivity extends AppCompatActivity {
     }
 
     private void mapReady() {
+
+        mapLoaded = true;
 
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
 //        Set security lane preferences, if any

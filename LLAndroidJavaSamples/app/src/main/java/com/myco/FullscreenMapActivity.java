@@ -40,6 +40,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class FullscreenMapActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (mapLoaded) return;
 
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
         llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
@@ -145,6 +148,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        mapLoaded = true;
     }
 
     private void initInitializationProgressIndicator() {

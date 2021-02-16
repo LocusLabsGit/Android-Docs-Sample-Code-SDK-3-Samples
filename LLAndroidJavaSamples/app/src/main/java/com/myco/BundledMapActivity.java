@@ -47,6 +47,7 @@ public class BundledMapActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private ProgressBar loadingProgressBar;
     private long loadingStartTimeInMillis;
+    private boolean mapLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class BundledMapActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
+        if (mapLoaded) return;
         unpackMapPacksAndLoadVenue();
     }
 
@@ -184,6 +186,7 @@ public class BundledMapActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        mapLoaded = true;
     }
 
     private void initInitializationProgressIndicator() {
