@@ -66,8 +66,45 @@ public class SearchProximityActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+
+        super.onStart();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+
+        super.onLowMemory();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onLowMemory();
+    }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onPause();
+    }
+
+    @Override
     protected void onResume() {
+
         super.onResume();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onResume();
 
         if (mapLoaded) return;
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
