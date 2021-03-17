@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 import com.locuslabs.sdk.llpublic.LLConfiguration;
@@ -22,11 +24,14 @@ import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLMapPackFinder;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
 import com.locuslabs.sdk.llpublic.LLOnUnpackCallback;
+import com.locuslabs.sdk.llpublic.LLOnWarningListener;
+import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
@@ -45,9 +50,7 @@ public class BundledMapActivity extends AppCompatActivity {
     private View initializationAnimationViewBackground;
     private ImageView initializationAnimationView;
     private AnimationDrawable initializationAnimationDrawable;
-    private ProgressBar loadingProgressBar;
-    private long loadingStartTimeInMillis;
-    private boolean mapLoaded;
+    private boolean showVenueCalled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,6 @@ public class BundledMapActivity extends AppCompatActivity {
         // Reference views
         initializationAnimationViewBackground = findViewById(R.id.initializationAnimationViewBackground);
         initializationAnimationView = findViewById(R.id.initializationAnimationView);
-        loadingProgressBar = findViewById(R.id.loadingProgressBar);
 
         initLocusMaps();
         initInitializationProgressIndicator();
@@ -81,7 +83,6 @@ public class BundledMapActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy();
     }
@@ -105,72 +106,31 @@ public class BundledMapActivity extends AppCompatActivity {
 
         super.onResume();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onResume();
-
-        if (mapLoaded) return;
-        unpackMapPacksAndLoadVenue();
-    }
-
-    private void unpackMapPacksAndLoadVenue() {
-
-        List<String> accountIdsForMapPacks = new ArrayList<String>();
-
-        accountIdsForMapPacks.add(LLConfiguration.Companion.getSingleton().getAccountID());
-        for (int i = 0; i < accountIdsForMapPacks.size(); i++) {
-            String accountIdsForMapPack = accountIdsForMapPacks.get(i);
-
-            LLOnUnpackCallback callback = new LLOnUnpackCallback() {
-                @Override
-                public void onUnpack(boolean b, Throwable throwable) {
-                    if (throwable != null) {
-                        Log.e("Log", "MapPack installation failed because: " +
-                                throwable.getMessage());
-                    } else {
-                        loadVenueListThenShowVenue();
-                    }
-                }
-            };
-
-            LLMapPackFinder.Companion.installMapPack(accountIdsForMapPack, null, callback);
-        }
-    }
-
-    private void loadVenueListThenShowVenue() {
-        LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
-            @Override
-            public void successCallback(@NonNull LLVenueList llVenueList) {
-
-                String llVenueID = "lax";
-
-                LLVenueListEntry llVenueListEntry = llVenueList.get(llVenueID);
-
-                showVenue(llVenueID, llVenueListEntry);
-            }
-
-            @Override
-            public void failureCallback(@NonNull Throwable throwable) {
-                Toast.makeText(getApplicationContext(), "Failed to get venue list because |" + Log.getStackTraceString(throwable) + "|", Toast.LENGTH_LONG).show();
-                Log.e("Log", "Failed to get venue list because stack trace: " + Log.getStackTraceString(throwable));
-                Log.e("Log", "Failed to get venue list because stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
-            }
-        });
-    }
-
-    private void showVenue(String llVenueID, LLVenueListEntry llVenueListEntry) {
-
-        String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
-        LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
-
-        llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
     }
 
     private void initLocusMaps() {
+
         llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
+
+        getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+            @Override
+            public void onFragmentStarted(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentStarted(fm, f);
+
+                if (f == llLocusMapsFragment && !showVenueCalled) {
+
+                    showVenueCalled = true;
+                    unpackMapPacksAndShowVenue();
+                }
+            }
+        }, false);
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(
                 new LLOnProgressListener() {
                     @Override
                     public void onProgressUpdate(double fractionComplete, String progressDescription) {
+
+                        // Map Ready
                         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
                             hideInitializationProgressIndicator();
@@ -211,22 +171,72 @@ public class BundledMapActivity extends AppCompatActivity {
                 }
         );
 
+        LLDependencyInjector.Companion.getSingleton().setOnWarningListener(new LLOnWarningListener() {
+            @Override
+            public void onWarning(Throwable throwable) {
+
+                // SDK warnings are sent here
+            }
+        });
+
         LLDependencyInjector.Companion.getSingleton().setOnFailureListener(new LLOnFailureListener() {
             @Override
             public void onFailure(Throwable throwable) {
-                Log.d("ccc", "Map load failed");
+
+                // SDK fatal errors are sent here
                 Log.e("LOG", "stack trace: " + Log.getStackTraceString(throwable));
                 Log.e("LOG", "stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
             }
         });
     }
 
-    private void mapReady() {
+    private void unpackMapPacksAndShowVenue() {
 
-        mapLoaded = true;
+        List<String> accountIdsForMapPacks = new ArrayList<String>();
+
+        accountIdsForMapPacks.add(LLConfiguration.Companion.getSingleton().getAccountID());
+        for (int i = 0; i < accountIdsForMapPacks.size(); i++) {
+            String accountIdsForMapPack = accountIdsForMapPacks.get(i);
+
+            LLOnUnpackCallback callback = new LLOnUnpackCallback() {
+                @Override
+                public void onUnpack(boolean b, Throwable throwable) {
+                    if (throwable != null) {
+                        Log.e("Log", "MapPack installation failed because: " +
+                                throwable.getMessage());
+                    } else {
+                        showVenue();
+                    }
+                }
+            };
+
+            LLMapPackFinder.Companion.installMapPack(accountIdsForMapPack, null, callback);
+        }
+    }
+
+    private void showVenue() {
+
+        LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
+        llVenueDatabase.getVenueDetails("lax", new LLOnGetVenueDetailsCallback() {
+            @Override
+            public void successCallback(LLVenue llVenue) {
+
+                String llVenueAssetVersion = llVenue.getAssetVersion();
+                LLVenueFiles llVenueFiles = llVenue.getVenueFiles();
+
+                llLocusMapsFragment.showVenue(llVenue.getId(), llVenueAssetVersion, llVenueFiles);
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+                // Failed to get venue details
+            }
+        });
     }
 
     private void initInitializationProgressIndicator() {
+
         initializationAnimationView.setBackgroundResource(R.drawable.ll_navigation_loading_animation);
         initializationAnimationDrawable = (AnimationDrawable) initializationAnimationView.getBackground();
         initializationAnimationDrawable.start();
@@ -234,46 +244,47 @@ public class BundledMapActivity extends AppCompatActivity {
     }
 
     private void showInitializationProgressIndicator() {
+
         initializationAnimationViewBackground.setVisibility(View.VISIBLE);
         initializationAnimationView.setVisibility(View.VISIBLE);
         initializationAnimationDrawable.setVisible(true, true);
     }
 
     private void hideInitializationProgressIndicator() {
+
         initializationAnimationViewBackground.setVisibility(View.GONE);
         initializationAnimationView.setVisibility(View.GONE);
         initializationAnimationDrawable.setVisible(false, false);
     }
 
     private void updateLevelLoadingProgressIndicator(double fractionComplete, String progressDescription) {
-        if (0.0 == fractionComplete) {
-            loadingStartTimeInMillis = Calendar.getInstance().getTimeInMillis();
-        }
 
+        // Use this section to implement a loading progress indicator if desired
         int percentComplete = (int) (fractionComplete * FRACTION_TO_PERCENT_CONVERSION_RATIO);
-        double timeElapsedInMillis = Calendar.getInstance().getTimeInMillis() - loadingStartTimeInMillis;
 
-        Log.d("LOG", "LocusMaps Android SDK Level Loading Progress: " + percentComplete + "\t" + timeElapsedInMillis + "\t" + progressDescription);
-
-        loadingProgressBar.setProgress(percentComplete);
-        loadingProgressBar.setVisibility(View.VISIBLE);
+        Log.d("LOG", "LocusMaps Android SDK Level Loading Progress: " + percentComplete +"\t" + progressDescription);
 
         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
-            (new Handler(Looper.getMainLooper(), null)).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadingProgressBar.setVisibility(View.GONE);
-                }
-            }, 50);
+
+            // Load complete
         }
     }
 
     @Override
     public void onBackPressed() {
+
         if (llLocusMapsFragment.hasBackStackItems()) {
+
             llLocusMapsFragment.popBackStack();
-        } else {
+        }
+        else {
+
             super.onBackPressed();
         }
+    }
+
+    private void mapReady() {
+
+        // This is the appropriate place to take most actions that affect the map
     }
 }
