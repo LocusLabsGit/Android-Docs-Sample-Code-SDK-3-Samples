@@ -2,18 +2,16 @@ package com.myco;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -21,25 +19,18 @@ import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
-import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
 import com.locuslabs.sdk.llpublic.LLOnWarningListener;
-import com.locuslabs.sdk.llpublic.LLPOI;
-import com.locuslabs.sdk.llpublic.LLPOIExtraButtonHandler;
 import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
-import com.locuslabs.sdk.llpublic.LLVenueList;
-import com.locuslabs.sdk.llpublic.LLVenueListEntry;
-
-import java.util.Calendar;
 
 import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
-public class POIButtonActivity extends AppCompatActivity {
+public class FullscreenMapFragment extends Fragment {
 
     private LLLocusMapsFragment llLocusMapsFragment;
     private View initializationAnimationViewBackground;
@@ -47,67 +38,71 @@ public class POIButtonActivity extends AppCompatActivity {
     private AnimationDrawable initializationAnimationDrawable;
     private boolean showVenueCalled;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fullscreen_map);
+        View rootView = inflater.inflate(R.layout.activity_fullscreen_map, container, false);
 
-        // Reference views
-        initializationAnimationViewBackground = findViewById(R.id.initializationAnimationViewBackground);
-        initializationAnimationView = findViewById(R.id.initializationAnimationView);
+        initializationAnimationViewBackground = rootView.findViewById(R.id.initializationAnimationViewBackground);
+        initializationAnimationView = rootView.findViewById(R.id.initializationAnimationView);
 
-        initLocusMaps();
-        initInitializationProgressIndicator();
-        showInitializationProgressIndicator();
+        return rootView;
     }
 
     @Override
-    protected void onStart() {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+        initLocusMaps();
+    }
+
+    @Override
+    public void onStart() {
 
         super.onStart();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onStart();
     }
 
     @Override
-    protected void onStop() {
-
-        super.onStop();
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-
-        super.onLowMemory();
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onLowMemory();
-    }
-
-    @Override
     public void onPause() {
-
         super.onPause();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onPause();
     }
 
     @Override
-    protected void onResume() {
+    public void onStop() {
+        super.onStop();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop();
+    }
+
+    @Override
+    public void onResume() {
 
         super.onResume();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onResume();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy();
+    }
+
     private void initLocusMaps() {
 
-        llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
+        llLocusMapsFragment = (LLLocusMapsFragment)getChildFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
 
-        getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+        initInitializationProgressIndicator();
+        showInitializationProgressIndicator();
+
+        getChildFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
             @Override
             public void onFragmentStarted(@NonNull FragmentManager fm, @NonNull Fragment f) {
                 super.onFragmentStarted(fm, f);
@@ -119,44 +114,6 @@ public class POIButtonActivity extends AppCompatActivity {
                 }
             }
         }, false);
-
-        LLDependencyInjector.Companion.getSingleton().setPoiExtraButtonHandler(new LLPOIExtraButtonHandler() {
-            @Override
-            public boolean doShowExtraButtonForPOI(LLVenue llVenue, LLPOI llpoi) {
-
-                if (llpoi.getId().equals("870")) {
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            @Override
-            public String getExtraButtonLabelForPOI(LLVenue llVenue, LLPOI llpoi) {
-
-                if (llpoi.getId().equals("870")) {
-
-                    return "Custom1";
-                }
-
-                return null;
-            }
-
-            @Override
-            public Drawable getExtraButtonIconForPOI(LLVenue llVenue, LLPOI llpoi) {
-                return null;
-            }
-
-            @Override
-            public void onExtraButtonClickedListener(LLVenue llVenue, LLPOI llpoi) {
-
-                if (llpoi.getId().equals("870")) {
-
-                    Log.d("Log", "Custom1 button tapped");
-                }
-            }
-        });
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(
                 new LLOnProgressListener() {
@@ -243,7 +200,6 @@ public class POIButtonActivity extends AppCompatActivity {
             }
         });
     }
-
     private void initInitializationProgressIndicator() {
 
         initializationAnimationView.setBackgroundResource(R.drawable.ll_navigation_loading_animation);
@@ -279,17 +235,16 @@ public class POIButtonActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    // Custom method your activity can call to see if this fragment will handle a back press event
+    public boolean backPressHandled() {
 
         if (llLocusMapsFragment.hasBackStackItems()) {
 
             llLocusMapsFragment.popBackStack();
+            return true;
         }
-        else {
 
-            super.onBackPressed();
-        }
+        return false;
     }
 
     private void mapReady() {

@@ -13,15 +13,20 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
+import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
+import com.locuslabs.sdk.llpublic.LLOnWarningListener;
+import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
 import com.locuslabs.sdk.llpublic.LLVenueList;
@@ -38,9 +43,8 @@ public class CustomThemeActivity extends AppCompatActivity {
     private View initializationAnimationViewBackground;
     private ImageView initializationAnimationView;
     private AnimationDrawable initializationAnimationDrawable;
-    private ProgressBar loadingProgressBar;
-    private long loadingStartTimeInMillis;
-    private boolean mapLoaded;
+    private boolean showVenueCalled;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,6 @@ public class CustomThemeActivity extends AppCompatActivity {
         // Reference views
         initializationAnimationViewBackground = findViewById(R.id.initializationAnimationViewBackground);
         initializationAnimationView = findViewById(R.id.initializationAnimationView);
-        loadingProgressBar = findViewById(R.id.loadingProgressBar);
 
         LLConfiguration.Companion.getSingleton().setLlUIThemeDefaultFilePathRelativeToAssetsDir("locuslabs/LLCustomTheme.json");
         initLocusMaps();
@@ -75,7 +78,6 @@ public class CustomThemeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy();
     }
@@ -99,37 +101,31 @@ public class CustomThemeActivity extends AppCompatActivity {
 
         super.onResume();
         if (llLocusMapsFragment != null) llLocusMapsFragment.onResume();
-
-        if (mapLoaded) return;
-        LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
-            @Override
-            public void successCallback(@NonNull LLVenueList llVenueList) {
-
-                String llVenueID = "lax";
-
-                LLVenueListEntry llVenueListEntry = llVenueList.get(llVenueID);
-
-                String llVenueAssetVersion = llVenueListEntry.getAssetVersion();
-                LLVenueFiles llVenueFiles = llVenueListEntry.getFiles();
-
-                llLocusMapsFragment.showVenue(llVenueID, llVenueAssetVersion, llVenueFiles);
-            }
-
-            @Override
-            public void failureCallback(@NonNull Throwable throwable) {
-                // Failed to get venue list
-            }
-        });
     }
 
     private void initLocusMaps() {
+
         llLocusMapsFragment = (LLLocusMapsFragment) getSupportFragmentManager().findFragmentById(R.id.llLocusMapsFragment);
+
+        getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+            @Override
+            public void onFragmentStarted(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentStarted(fm, f);
+
+                if (f == llLocusMapsFragment && !showVenueCalled) {
+
+                    showVenueCalled = true;
+                    showVenue();
+                }
+            }
+        }, false);
 
         LLDependencyInjector.Companion.getSingleton().setOnInitializationProgressListener(
                 new LLOnProgressListener() {
                     @Override
                     public void onProgressUpdate(double fractionComplete, String progressDescription) {
+
+                        // Map Ready
                         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
                             hideInitializationProgressIndicator();
@@ -170,22 +166,48 @@ public class CustomThemeActivity extends AppCompatActivity {
                 }
         );
 
+        LLDependencyInjector.Companion.getSingleton().setOnWarningListener(new LLOnWarningListener() {
+            @Override
+            public void onWarning(Throwable throwable) {
+
+                // SDK warnings are sent here
+            }
+        });
 
         LLDependencyInjector.Companion.getSingleton().setOnFailureListener(new LLOnFailureListener() {
             @Override
             public void onFailure(Throwable throwable) {
+
+                // SDK fatal errors are sent here
                 Log.e("LOG", "stack trace: " + Log.getStackTraceString(throwable));
                 Log.e("LOG", "stack trace cause: " + Log.getStackTraceString(throwable.getCause()));
             }
         });
     }
 
-    private void mapReady() {
+    private void showVenue() {
 
-        mapLoaded = true;
+        LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
+        llVenueDatabase.getVenueDetails("lax", new LLOnGetVenueDetailsCallback() {
+            @Override
+            public void successCallback(LLVenue llVenue) {
+
+                String llVenueAssetVersion = llVenue.getAssetVersion();
+                LLVenueFiles llVenueFiles = llVenue.getVenueFiles();
+
+                llLocusMapsFragment.showVenue(llVenue.getId(), llVenueAssetVersion, llVenueFiles);
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+                // Failed to get venue details
+            }
+        });
     }
 
     private void initInitializationProgressIndicator() {
+
         initializationAnimationView.setBackgroundResource(R.drawable.ll_navigation_loading_animation);
         initializationAnimationDrawable = (AnimationDrawable) initializationAnimationView.getBackground();
         initializationAnimationDrawable.start();
@@ -193,46 +215,47 @@ public class CustomThemeActivity extends AppCompatActivity {
     }
 
     private void showInitializationProgressIndicator() {
+
         initializationAnimationViewBackground.setVisibility(View.VISIBLE);
         initializationAnimationView.setVisibility(View.VISIBLE);
         initializationAnimationDrawable.setVisible(true, true);
     }
 
     private void hideInitializationProgressIndicator() {
+
         initializationAnimationViewBackground.setVisibility(View.GONE);
         initializationAnimationView.setVisibility(View.GONE);
         initializationAnimationDrawable.setVisible(false, false);
     }
 
     private void updateLevelLoadingProgressIndicator(double fractionComplete, String progressDescription) {
-        if (0.0 == fractionComplete) {
-            loadingStartTimeInMillis = Calendar.getInstance().getTimeInMillis();
-        }
 
+        // Use this section to implement a loading progress indicator if desired
         int percentComplete = (int) (fractionComplete * FRACTION_TO_PERCENT_CONVERSION_RATIO);
-        double timeElapsedInMillis = Calendar.getInstance().getTimeInMillis() - loadingStartTimeInMillis;
 
-        Log.d("LOG", "LocusMaps Android SDK Level Loading Progress: " + percentComplete + "\t" + timeElapsedInMillis + "\t" + progressDescription);
-
-        loadingProgressBar.setProgress(percentComplete);
-        loadingProgressBar.setVisibility(View.VISIBLE);
+        Log.d("LOG", "LocusMaps Android SDK Level Loading Progress: " + percentComplete +"\t" + progressDescription);
 
         if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
-            (new Handler(Looper.getMainLooper(), null)).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadingProgressBar.setVisibility(View.GONE);
-                }
-            }, 50);
+
+            // Load complete
         }
     }
 
     @Override
     public void onBackPressed() {
+
         if (llLocusMapsFragment.hasBackStackItems()) {
+
             llLocusMapsFragment.popBackStack();
-        } else {
+        }
+        else {
+
             super.onBackPressed();
         }
+    }
+
+    private void mapReady() {
+
+        // This is the appropriate place to take most actions that affect the map
     }
 }
