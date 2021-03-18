@@ -38,8 +38,8 @@ import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
 import java.util.Calendar;
 
-import static com.locuslabs.sdk.llprivate.ConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
-import static com.locuslabs.sdk.llprivate.ConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
+import static com.locuslabs.sdk.llpublic.LLConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
+import static com.locuslabs.sdk.llpublic.LLConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
 
 public class MarkersActivity extends AppCompatActivity {
 
