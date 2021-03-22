@@ -258,8 +258,8 @@ public class DirectionsShowActivity extends AppCompatActivity {
 
     private void mapReady() {
 
-        // This is the appropriate place to take most actions that affect the map
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
+        // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
         llLocusMapsFragment.showDirections("1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes);
     }
 }
