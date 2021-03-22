@@ -175,12 +175,11 @@ class DirectionsStepsETAActivity : AppCompatActivity() {
     }
 
     private fun mapReady() {
-
-        // This is the appropriate place to take most actions that affect the map
+        
         val securityQueueTypes: Map<String, List<String>> = HashMap()
         val navDB = LLNavigationDatabase()
 
-        // Note that another signature of this method takes LLNavigationPoints in place of POI IDs
+        // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
         navDB.getDirections("lax", "1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes, object : LLOnGetDirectionsCallback {
             override fun successCallback(llNavPath: LLNavPath) {
                 var message = """ETA(secs): ${llNavPath.transitTime()}
