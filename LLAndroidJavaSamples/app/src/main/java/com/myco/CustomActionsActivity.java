@@ -54,7 +54,7 @@ public class CustomActionsActivity extends AppCompatActivity {
         // Reference views
         initializationAnimationViewBackground = findViewById(R.id.initializationAnimationViewBackground);
         initializationAnimationView = findViewById(R.id.initializationAnimationView);
-        
+
         LLConfiguration.Companion.getSingleton().setCustomActionsFilePathRelativeToAssetsDir("locuslabs/LLCustomActions.json");
         initLocusMaps();
         initInitializationProgressIndicator();

@@ -256,4 +256,6 @@ public class FullscreenMapActivity extends AppCompatActivity {
 
         // This is the appropriate place to take most actions that affect the map
     }
+
+
 }

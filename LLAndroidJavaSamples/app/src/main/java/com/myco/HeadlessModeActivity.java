@@ -50,11 +50,13 @@ public class HeadlessModeActivity extends AppCompatActivity {
 
     private void startHeadlessMode() {
 
+        // The SDK is now ready to perform all headless operations including getting venue data, search results, directions, etc. e.g   get details for a POI
+        // The 2 lines below imply illustrate how to instantiate the necessary databases for the different headless operations
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
         LLNavigationDatabase llNavigationDatabase = new LLNavigationDatabase();
 
-        // The SDK is now ready to perform all headless operations including getting venue data, search results, directions, etc. e.g   get details for a POI
+        LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
+
         llpoiDatabase.getPOIDetails("lax", "870", new LLOnGetPOIDetailsCallback() {
             @Override
             public void successCallback(LLPOI llpoi) {
@@ -72,11 +74,5 @@ public class HeadlessModeActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
     }
 }
