@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -145,7 +147,7 @@ public class POIButtonActivity extends AppCompatActivity {
 
             @Override
             public Drawable getExtraButtonIconForPOI(LLVenue llVenue, LLPOI llpoi) {
-                return null;
+                return ContextCompat.getDrawable(POIButtonActivity.this, R.drawable.outline_circle);
             }
 
             @Override

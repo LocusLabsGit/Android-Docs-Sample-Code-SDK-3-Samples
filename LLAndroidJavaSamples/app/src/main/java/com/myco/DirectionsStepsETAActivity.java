@@ -268,6 +268,7 @@ public class DirectionsStepsETAActivity extends AppCompatActivity {
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
         LLNavigationDatabase navDB = new LLNavigationDatabase();
 
+        // Note that another signature of this method takes LLNavigationPoints in place of POI IDs
         navDB.getDirections("lax", "1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes, new LLOnGetDirectionsCallback() {
             @Override
             public void successCallback(LLNavPath llNavPath) {

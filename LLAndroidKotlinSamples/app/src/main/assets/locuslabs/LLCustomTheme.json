@@ -1,0 +1,94 @@
+{
+    "colors": {
+        "globalPrimary": "#2266DD",
+        "globalPrimaryText": "#FF0000",
+        "globalPrimaryButton": "#2266DD",
+        "globalPrimaryButtonHover": "#124CB1",
+        "globalPrimaryButtonText": "#FFFFFF",
+        "globalSecondary": "#999999",
+        "globalSecondaryText": "#666666",
+        "globalSecondaryButton": "#EBEBEB",
+        "globalSecondaryButtonHover": "#D9D9D9",
+        "globalSecondaryButtonText": "#2266DD",
+        "globalBackground": "#FFFFFF",
+        "globalOverlay": "#000000",
+        "mapNavBackground": "#333333",
+        "mapNavText": "#FFFFFF",
+        "mapNavSearchResults": "#CA4800",
+        "mapNavSearchResultsText": "#FFFFFF",
+        "widgetBackground": "#F9F9F9",
+        "widgetText": "#333333",
+        "widgetIcons": "#333333",
+        "myLocationPrimaryButton": "#2266DD",
+        "myLocationPrimaryButtonHover": "#124CB1",
+        "statusWaitTimeBackground": "#E52727",
+        "statusWaitTimeText": "#FFFFFF",
+        "statusOnTimeAndOpenBackground": "#219653",
+        "statusOnTimeAndOpenText": "#FFFFFF",
+        "statusClosedDepartedArrivedOccupiedBackground": "#EBEBEB",
+        "statusClosedDepartedArrivedOccupiedText": "#333333"
+    },
+    "fonts": {
+        "H1_Regular": {
+            "fontWeight": "normal",
+            "fontSize": "20sp"
+        },
+        "H1_Medium": {
+            "fontWeight": "500",
+            "fontSize": "20sp"
+        },
+        "H2_Light": {
+            "fontWeight": "300",
+            "fontSize": "17sp"
+        },
+        "H2_Regular": {
+            "fontWeight": "bold",
+            "fontSize": "19sp"
+        },
+        "H2_Medium": {
+            "fontWeight": "500",
+            "fontSize": "17sp"
+        },
+        "H2_Bold": {
+            "fontWeight": "bold",
+            "fontSize": "17sp"
+        },
+        "H3_Regular": {
+            "fontWeight": "normal",
+            "fontSize": "15sp"
+        },
+        "H3_Medium": {
+            "fontWeight": "500",
+            "fontSize": "15sp"
+        },
+        "H3_Bold": {
+            "fontWeight": "bold",
+            "fontSize": "15sp"
+        },
+        "H4_Regular": {
+            "fontWeight": "normal",
+            "fontSize": "14sp"
+        },
+        "H4_Medium": {
+            "fontWeight": "500",
+            "fontSize": "14sp"
+        },
+        "H5_Regular": {
+            "fontWeight": "normal",
+            "fontSize": "13sp"
+        },
+        "H5_Medium": {
+            "fontWeight": "500",
+            "fontSize": "13sp"
+        },
+        "H6_Regular": {
+            "fontWeight": "normal",
+            "fontSize": "12sp"
+        },
+        "H6_Medium": {
+            "fontWeight": "500",
+            "fontSize": "12sp"
+        }
+    }
+}
+
