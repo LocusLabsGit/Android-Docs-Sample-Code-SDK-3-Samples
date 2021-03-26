@@ -1,9 +1,7 @@
 package com.myco
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.drawable.AnimationDrawable
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.locuslabs.sdk.llprivate.llPublicDI
 import com.locuslabs.sdk.llpublic.*
-import com.locuslabs.sdk.llpublic.LLDependencyInjector.Companion.singleton
 
 class POIButtonActivity : AppCompatActivity() {
 
@@ -75,7 +72,7 @@ class POIButtonActivity : AppCompatActivity() {
 
             override fun getExtraButtonIconForPOI(venue: LLVenue, poi: LLPOI): Drawable {
 
-                val markerDrawable = ContextCompat.getDrawable(this@POIButtonActivity, R.drawable.outline_circle)
+                val markerDrawable = ContextCompat.getDrawable(this@POIButtonActivity, R.drawable.rect)
 
                 return if (poi.id == "870") {
                     markerDrawable!!
