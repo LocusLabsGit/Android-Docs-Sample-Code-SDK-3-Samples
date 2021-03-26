@@ -263,7 +263,7 @@ public class SearchCategoriesActivity extends AppCompatActivity {
 
         LLPOIDatabase poiDatabase = new LLPOIDatabase();
         List<String> searchTerms = new ArrayList<>();
-        searchTerms.add("gate:64");
+        searchTerms.add("gate:Gate 64A");
 
         poiDatabase.getSearchResults("lax", Collections.singletonList(searchTerms), null, null, null, Locale.getDefault(), new LLOnGetSearchResultsCallback() {
             @Override
@@ -275,11 +275,12 @@ public class SearchCategoriesActivity extends AppCompatActivity {
                 for (LLPOI poi: list) {
 
                     message = message +poi.getName() +"\n";
+                    count++;
                 }
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(SearchCategoriesActivity.this);
                 dialog.setMessage(message);
-                dialog.setTitle("gate:64 Search Results (" +String.valueOf(count) +")");
+                dialog.setTitle("gate:Gate 64A Search Results (" +String.valueOf(count) +")");
                 dialog.setPositiveButton("OK", null);
                 dialog.create().show();
             }

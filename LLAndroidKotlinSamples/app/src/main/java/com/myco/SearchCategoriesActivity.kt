@@ -183,12 +183,13 @@ class SearchCategoriesActivity : AppCompatActivity() {
         poiDatabase.getSearchResults("lax", listOf<List<String>>(searchTerms), null, null, null, Locale.getDefault(), object : LLOnGetSearchResultsCallback {
             override fun successCallback(list: List<LLPOI>) {
                 var message = ""
-                val count = 0
+                var count = 0
                 for (poi in list) {
                     message = """
                 $message${poi.name}
                 
                 """.trimIndent()
+                    count++
                 }
                 val dialog = AlertDialog.Builder(this@SearchCategoriesActivity)
                 dialog.setMessage(message)

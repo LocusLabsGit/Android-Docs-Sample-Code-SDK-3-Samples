@@ -5,17 +5,13 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -23,7 +19,6 @@ import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
-import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
@@ -33,10 +28,6 @@ import com.locuslabs.sdk.llpublic.LLPOIExtraButtonHandler;
 import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
-import com.locuslabs.sdk.llpublic.LLVenueList;
-import com.locuslabs.sdk.llpublic.LLVenueListEntry;
-
-import java.util.Calendar;
 
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
@@ -147,7 +138,8 @@ public class POIButtonActivity extends AppCompatActivity {
 
             @Override
             public Drawable getExtraButtonIconForPOI(LLVenue llVenue, LLPOI llpoi) {
-                return ContextCompat.getDrawable(POIButtonActivity.this, R.drawable.outline_circle);
+
+                return ContextCompat.getDrawable(POIButtonActivity.this, R.drawable.rect);
             }
 
             @Override
