@@ -90,7 +90,7 @@ class FullscreenMapFragment : Fragment() {
 
         }, false)
 
-        llPublicDI().onInitializationProgressListener = object : LLOnProgressListener {
+        LLDependencyInjector.singleton.onInitializationProgressListener = object : LLOnProgressListener {
             override fun onProgressUpdate(fractionComplete: Double, progressDescription: String) {
                 if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
@@ -100,13 +100,13 @@ class FullscreenMapFragment : Fragment() {
             }
         }
 
-        llPublicDI().onLevelLoadingProgressListener = object : LLOnProgressListener {
+        LLDependencyInjector.singleton.onLevelLoadingProgressListener = object : LLOnProgressListener {
             override fun onProgressUpdate(fractionComplete: Double, progressDescription: String) {
                 updateLevelLoadingProgressIndicator(fractionComplete, progressDescription)
             }
         }
 
-        llPublicDI().onPOIURLClickedListener = object : LLOnPOIURLClickedListener {
+        LLDependencyInjector.singleton.onPOIURLClickedListener = object : LLOnPOIURLClickedListener {
             override fun onPOIURLClicked(url: String) {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url)
@@ -114,7 +114,7 @@ class FullscreenMapFragment : Fragment() {
             }
         }
 
-        llPublicDI().onPOIPhoneClickedListener = object : LLOnPOIPhoneClickedListener {
+        LLDependencyInjector.singleton.onPOIPhoneClickedListener = object : LLOnPOIPhoneClickedListener {
             override fun onPOIPhoneClicked(phone: String) {
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse("tel:$phone")
@@ -122,7 +122,7 @@ class FullscreenMapFragment : Fragment() {
             }
         }
 
-        llPublicDI().onWarningListener = object : LLOnWarningListener {
+        LLDependencyInjector.singleton.onWarningListener = object : LLOnWarningListener {
 
             override fun onWarning(throwable: Throwable) {
 
@@ -130,7 +130,7 @@ class FullscreenMapFragment : Fragment() {
             }
         }
 
-        llPublicDI().onFailureListener = object : LLOnFailureListener {
+        LLDependencyInjector.singleton.onFailureListener = object : LLOnFailureListener {
             override fun onFailure(throwable: Throwable) {
 
                 Log.e("LOG", "stack trace: ${Log.getStackTraceString(throwable)}")
@@ -143,13 +143,20 @@ class FullscreenMapFragment : Fragment() {
 
         val llVenueDatabase = LLVenueDatabase()
 
-        var venueDetailsCallback = object : LLOnGetVenueDetailsCallback {
+        var venueListCallback = object : LLOnGetVenueListCallback {
 
-            override fun successCallback(venue: LLVenue) {
+            override fun successCallback(venueList: LLVenueList) {
 
-                val llVenueAssetVersion = venue.assetVersion
-                val llVenueFiles = venue.venueFiles
-                llLocusMapsFragment.showVenue(venue.id, llVenueAssetVersion, llVenueFiles)
+                val venueID = "lax"
+
+                val venueListEntry = venueList[venueID]
+                        ?: // A venue loading error occurred
+                        return
+
+                val llVenueAssetVersion = venueListEntry.assetVersion
+                val llVenueFiles = venueListEntry.files
+
+                llLocusMapsFragment.showVenue(venueID, llVenueAssetVersion, llVenueFiles)
             }
 
             override fun failureCallback(throwable: Throwable) {
@@ -158,7 +165,7 @@ class FullscreenMapFragment : Fragment() {
             }
         }
 
-        llVenueDatabase.getVenueDetails("lax", venueDetailsCallback)
+        llVenueDatabase.getVenueList(venueListCallback)
     }
 
     private fun initInitializationProgressIndicator() {

@@ -44,7 +44,7 @@ public class FullscreenMapActivity extends AppCompatActivity {
     private ImageView initializationAnimationView;
     private AnimationDrawable initializationAnimationDrawable;
     private boolean showVenueCalled;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -186,14 +186,24 @@ public class FullscreenMapActivity extends AppCompatActivity {
     private void showVenue() {
 
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        llVenueDatabase.getVenueDetails("lax", new LLOnGetVenueDetailsCallback() {
+
+        llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
-            public void successCallback(LLVenue llVenue) {
+            public void successCallback(LLVenueList llVenueList) {
 
-                String llVenueAssetVersion = llVenue.getAssetVersion();
-                LLVenueFiles llVenueFiles = llVenue.getVenueFiles();
+                String venueID = "lax";
 
-                llLocusMapsFragment.showVenue(llVenue.getId(), llVenueAssetVersion, llVenueFiles);
+                LLVenueListEntry venueListEntry = llVenueList.get(venueID);
+                if (venueListEntry == null)  {
+
+                    // A venue loading error occurred
+                    return;
+                }
+
+                String llVenueAssetVersion = venueListEntry.getAssetVersion();
+                LLVenueFiles llVenueFiles = venueListEntry.getFiles();
+
+                llLocusMapsFragment.showVenue(venueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override

@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentManager;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLNavAccessibilityType;
+import com.locuslabs.sdk.llpublic.LLNavigationPoint;
+import com.locuslabs.sdk.llpublic.LLNavigationPointForPOI;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
@@ -190,14 +192,24 @@ public class DirectionsShowActivity extends AppCompatActivity {
     private void showVenue() {
 
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        llVenueDatabase.getVenueDetails("lax", new LLOnGetVenueDetailsCallback() {
+
+        llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
-            public void successCallback(LLVenue llVenue) {
+            public void successCallback(LLVenueList llVenueList) {
 
-                String llVenueAssetVersion = llVenue.getAssetVersion();
-                LLVenueFiles llVenueFiles = llVenue.getVenueFiles();
+                String venueID = "lax";
 
-                llLocusMapsFragment.showVenue(llVenue.getId(), llVenueAssetVersion, llVenueFiles);
+                LLVenueListEntry venueListEntry = llVenueList.get(venueID);
+                if (venueListEntry == null)  {
+
+                    // A venue loading error occurred
+                    return;
+                }
+
+                String llVenueAssetVersion = venueListEntry.getAssetVersion();
+                LLVenueFiles llVenueFiles = venueListEntry.getFiles();
+
+                llLocusMapsFragment.showVenue(venueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
@@ -259,7 +271,10 @@ public class DirectionsShowActivity extends AppCompatActivity {
     private void mapReady() {
 
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
-        // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
-        llLocusMapsFragment.showDirections("1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes);
+
+        LLNavigationPoint startPoint =  new LLNavigationPointForPOI("1025");
+        LLNavigationPoint endPoint =  new LLNavigationPointForPOI("566");
+
+        llLocusMapsFragment.showDirections(startPoint, endPoint, LLNavAccessibilityType.Direct, securityQueueTypes);
     }
 }

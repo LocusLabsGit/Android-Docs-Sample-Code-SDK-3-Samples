@@ -19,6 +19,7 @@ import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
+import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
@@ -28,6 +29,8 @@ import com.locuslabs.sdk.llpublic.LLPOIExtraButtonHandler;
 import com.locuslabs.sdk.llpublic.LLVenue;
 import com.locuslabs.sdk.llpublic.LLVenueDatabase;
 import com.locuslabs.sdk.llpublic.LLVenueFiles;
+import com.locuslabs.sdk.llpublic.LLVenueList;
+import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
@@ -220,14 +223,24 @@ public class POIButtonActivity extends AppCompatActivity {
     private void showVenue() {
 
         LLVenueDatabase llVenueDatabase = new LLVenueDatabase();
-        llVenueDatabase.getVenueDetails("lax", new LLOnGetVenueDetailsCallback() {
+
+        llVenueDatabase.getVenueList(new LLOnGetVenueListCallback() {
             @Override
-            public void successCallback(LLVenue llVenue) {
+            public void successCallback(LLVenueList llVenueList) {
 
-                String llVenueAssetVersion = llVenue.getAssetVersion();
-                LLVenueFiles llVenueFiles = llVenue.getVenueFiles();
+                String venueID = "lax";
 
-                llLocusMapsFragment.showVenue(llVenue.getId(), llVenueAssetVersion, llVenueFiles);
+                LLVenueListEntry venueListEntry = llVenueList.get(venueID);
+                if (venueListEntry == null)  {
+
+                    // A venue loading error occurred
+                    return;
+                }
+
+                String llVenueAssetVersion = venueListEntry.getAssetVersion();
+                LLVenueFiles llVenueFiles = venueListEntry.getFiles();
+
+                llLocusMapsFragment.showVenue(venueID, llVenueAssetVersion, llVenueFiles);
             }
 
             @Override
