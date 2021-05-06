@@ -52,19 +52,18 @@ dependencies {
     implementation 'com.locuslabs:locuslabs-android-sdk:3.0.28'
 
     // The following is only necessary when integrating Grab
-    implementation (name: 'grab-framework-1.1.34', ext: 'aar')
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.4.1'
-    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    implementation 'de.hdodenhof:circleimageview:2.0.0'
-    implementation 'com.android.volley:volley:1.1.0'
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
-    implementation 'com.google.android.gms:play-services-gcm:16.1.0'
-    implementation 'com.wunderlist:sliding-layer:1.2.5'
-    implementation 'io.card:android-sdk:5.1.1'
-    implementation 'org.kamranzafar:jtar:2.2'
-    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0'
-    implementation 'org.tukaani:xz:1.8'
-    implementation 'com.braintreepayments.api:braintree:2.16.0'
+    implementation (name: "grab-framework-1.1.34", ext: "aar")
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "com.googlecode.libphonenumber:libphonenumber:8.4.1"
+    implementation "com.amulyakhare:com.amulyakhare.textdrawable:1.0.1"
+    implementation "de.hdodenhof:circleimageview:2.0.0"
+    implementation "com.android.volley:volley:1.2.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.gms:play-services-location:18.0.0"
+    implementation "com.google.android.gms:play-services-gcm:17.0.0"
+    implementation "com.wunderlist:sliding-layer:1.2.5"
+    implementation "io.card:android-sdk:5.1.1"
+    implementation "com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0"
+    implementation "org.tukaani:xz:1.8"
 }
