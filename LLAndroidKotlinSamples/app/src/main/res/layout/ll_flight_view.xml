@@ -22,16 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:background="@color/ll_white"
+            android:background="@color/ll_light_grayish_white"
             android:orientation="vertical">
 
             <include
                 layout="@layout/ll_bottom_sheet_header_top_rim"
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="18dp" />
 
             <!-- Flight POI Location Information -->
             <include layout="@layout/ll_flight_view_flight_location" />
