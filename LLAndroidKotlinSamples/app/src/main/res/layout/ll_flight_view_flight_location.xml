@@ -58,30 +58,6 @@
             app:drawableStartCompat="@drawable/ll_poi_icon_levels"
             tools:text="Level 2 · Departures" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/ll_flight_view_security_text"-->
-        <!--            android:text=""-->
-        <!--            android:textSize="@null"-->
-        <!--            android:textColor="@null"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="4dp"-->
-        <!--            android:layout_marginBottom="4dp"-->
-        <!--            android:maxLines="1"-->
-        <!--            android:drawablePadding="8dp"-->
-        <!--            android:drawableTint="@color/ll_gray"-->
-        <!--            android:drawableStart="@drawable/ll_ic_security_gray_20dp"-->
-        <!--            android:drawableLeft="@drawable/ll_ic_security_gray_20dp"/>-->
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/ll_flight_view_directional_arrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="8dp"
-        android:layout_weight="0.1"
-        android:contentDescription="@string/ll_icon_caret_down_description"
-        android:scaleType="center"
-        android:src="@drawable/ll_ic_arrow_up_gray_30dp" />
 
 </LinearLayout>
