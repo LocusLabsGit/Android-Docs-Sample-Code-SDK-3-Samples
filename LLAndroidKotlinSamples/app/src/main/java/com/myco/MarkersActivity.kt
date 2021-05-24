@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.locuslabs.sdk.llprivate.llPublicDI
 import com.locuslabs.sdk.llpublic.*
+import androidx.activity.viewModels
 
 class MarkersActivity  : AppCompatActivity() {
+    private val mainViewModel by viewModels<MainViewModel>()
 
     private lateinit var llLocusMapsFragment: LLLocusMapsFragment
     private lateinit var initializationAnimationViewBackground: View
@@ -192,7 +194,7 @@ class MarkersActivity  : AppCompatActivity() {
                 llLocusMapsFragment.showMarker("MarkerID", llpoi.level.ordinal, llpoi.latLng, markerImage, object: LLOnMarkerClickListener {
 
                     override fun onMarkerClick(markerID: String) {
-                        // Take action if the marker is tapped, if desired
+                        mainViewModel.showMarkerTappedFragment.value = true
                     }
                 })
             }
