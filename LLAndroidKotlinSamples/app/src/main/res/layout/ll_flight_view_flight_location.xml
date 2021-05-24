@@ -29,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text=""
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#333333"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ll_flight_view_section_text"
