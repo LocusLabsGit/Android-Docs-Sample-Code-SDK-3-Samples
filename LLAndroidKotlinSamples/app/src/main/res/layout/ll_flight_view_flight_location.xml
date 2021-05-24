@@ -11,9 +11,8 @@
 
     <ImageView
         android:id="@+id/ll_flight_view_plane_pin"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_weight="0.1"
         android:contentDescription="@string/ll_icon_airplane_pin_description" />
@@ -21,7 +20,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:orientation="vertical">
 
         <TextView
