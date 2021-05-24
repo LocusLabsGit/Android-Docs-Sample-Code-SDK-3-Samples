@@ -87,7 +87,7 @@ class MarkerTappedFragment: DialogFragment() {
                         mainViewModel.poiID,
                         object : LLOnGetPOIDetailsCallback {
                             override fun successCallback(poi: LLPOI) {
-                                val flight = laxArrivingFlight()
+                                val flight = laxDepartingFlight()
                                 setFlightStatusViewText(poi, flight)
                             }
 
