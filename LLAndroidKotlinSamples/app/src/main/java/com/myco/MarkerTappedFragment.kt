@@ -23,7 +23,6 @@ class MarkerTappedFragment: DialogFragment() {
     private lateinit var section_text_view: TextView
     private lateinit var floor_text_view: TextView
 
-    //    private lateinit var security_text_view: TextView
     private lateinit var gate_type_text_view: TextView
     private lateinit var flight_status_view_flight_number_text: TextView
     private lateinit var flight_status_view_starting_venue_text: TextView
@@ -56,7 +55,6 @@ class MarkerTappedFragment: DialogFragment() {
         gate_text_view = requireView().findViewById(R.id.ll_flight_view_gate_text)
         section_text_view = requireView().findViewById(R.id.ll_flight_view_section_text)
         floor_text_view = requireView().findViewById(R.id.ll_flight_view_floor_text)
-//        security_text_view = requireView().findViewById(R.id.ll_flight_view_security_text)
         gate_type_text_view = requireView().findViewById(R.id.ll_flight_view_gate_type_text)
         flight_status_view_flight_number_text =
             requireView().findViewById(R.id.flight_status_view_flight_number_text)
@@ -314,9 +312,6 @@ class MarkerTappedFragment: DialogFragment() {
 
         // Floor Text
         floor_text_view.text = floorDescription
-
-        // Security Text
-//        security_text_view.setText(securityStatus)
 
         // Flight Status View Starting Location - Information Section
 
