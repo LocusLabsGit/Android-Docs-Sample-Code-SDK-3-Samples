@@ -34,7 +34,11 @@
             <include layout="@layout/ll_flight_view_flight_location" />
 
             <!-- Floating Action Buttons -->
-            <include layout="@layout/ll_flight_button_grid" />
+            <include layout="@layout/ll_flight_button_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
 
             <!-- Relevant Flight Information -->
             <include layout="@layout/ll_flight_view_flight_information" />
