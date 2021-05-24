@@ -22,6 +22,10 @@ class MarkersActivity  : AppCompatActivity() {
     private lateinit var initializationAnimationDrawable: AnimationDrawable
     private var showVenueCalled = false
 
+    private val venueID = "lax"
+    private val gate60 = "493"
+    private val gate60B = "1205"
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -111,8 +115,6 @@ class MarkersActivity  : AppCompatActivity() {
 
             override fun successCallback(venueList: LLVenueList) {
 
-                val venueID = "lax"
-
                 val venueListEntry = venueList[venueID]
                         ?: // A venue loading error occurred
                         return
@@ -182,12 +184,11 @@ class MarkersActivity  : AppCompatActivity() {
 
     private fun mapReady() {
 
-        // Add marker to the Starbucks close to Gate 60 using the following code:
         val llpoiDatabase = LLPOIDatabase()
-        llpoiDatabase.getPOIDetails("lax", "870", object : LLOnGetPOIDetailsCallback {
+        llpoiDatabase.getPOIDetails(venueID, gate60, object : LLOnGetPOIDetailsCallback {
 
             override fun successCallback(llpoi: LLPOI) {
-                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.starbucks)
+                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.pin_plane_landing)
                 llLocusMapsFragment.showMarker("MarkerID", llpoi.level.ordinal, llpoi.latLng, markerImage, object: LLOnMarkerClickListener {
 
                     override fun onMarkerClick(markerID: String) {
