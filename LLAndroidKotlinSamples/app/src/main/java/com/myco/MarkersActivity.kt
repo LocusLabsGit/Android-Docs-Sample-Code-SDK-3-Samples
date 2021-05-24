@@ -24,10 +24,6 @@ class MarkersActivity  : AppCompatActivity() {
     private lateinit var initializationAnimationDrawable: AnimationDrawable
     private var showVenueCalled = false
 
-    private val venueID = "lax"
-    private val gate60 = "493"
-    private val gate60B = "1205"
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -117,14 +113,14 @@ class MarkersActivity  : AppCompatActivity() {
 
             override fun successCallback(venueList: LLVenueList) {
 
-                val venueListEntry = venueList[venueID]
+                val venueListEntry = venueList[mainViewModel.venueID]
                         ?: // A venue loading error occurred
                         return
 
                 val llVenueAssetVersion = venueListEntry.assetVersion
                 val llVenueFiles = venueListEntry.files
 
-                llLocusMapsFragment.showVenue(venueID, llVenueAssetVersion, llVenueFiles)
+                llLocusMapsFragment.showVenue(mainViewModel.venueID, llVenueAssetVersion, llVenueFiles)
             }
 
             override fun failureCallback(throwable: Throwable) {
@@ -187,7 +183,7 @@ class MarkersActivity  : AppCompatActivity() {
     private fun mapReady() {
 
         val llpoiDatabase = LLPOIDatabase()
-        llpoiDatabase.getPOIDetails(venueID, gate60, object : LLOnGetPOIDetailsCallback {
+        llpoiDatabase.getPOIDetails(mainViewModel.venueID, mainViewModel.poiID, object : LLOnGetPOIDetailsCallback {
 
             override fun successCallback(llpoi: LLPOI) {
                 val markerImage = BitmapFactory.decodeResource(resources, R.drawable.pin_plane_landing)

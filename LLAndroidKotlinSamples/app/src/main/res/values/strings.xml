@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">LLSDK Samples</string>
+    <string name="ll_icon_airplane_pin_description" translatable="false">An icon inside that shows an airplane.</string>
+    <string name="ll_icon_caret_down_description" translatable="false">This is a caret symbol pointed down, denoting that the associated view may be moved in a downward fashion or visualizes as a cue to look below the symbol.</string>
+    <string name="ll_common_bottom_directions" translatable="false">Directions</string>
+    <string name="ll_icon_airline_logo_description" translatable="false">A logo belonging to an Airline.</string>
+    <string name="ll_common_gate" translatable="false">gate</string>
+    <string name="ll_common_flight" translatable="false">Flight</string>
+    <string name="ll_common_unavailable" translatable="false">Not Available</string>
+    <string name="arrival_act" translatable="false">Act. Arrival</string>
+    <string name="arrival_actual" translatable="false">Actual Arrival</string>
+    <string name="arrival_est" translatable="false">Est. Arrival</string>
+    <string name="arrival_estimated" translatable="false">Estimated Arrival</string>
+    <string name="arrival_gate" translatable="false">My Arrival Gate</string>
+    <string name="arrival_sched" translatable="false">Sched. Arrival</string>
+    <string name="arrival_scheduled" translatable="false">Scheduled Arrival</string>
+    <string name="baggage_claim" translatable="false">Baggage Claim - </string>
+    <string name="departure_act" translatable="false">Act. Departure</string>
+    <string name="departure_actual" translatable="false">Actual Departure</string>
+    <string name="departure_est" translatable="false">Est. Departure</string>
+    <string name="departure_estimated" translatable="false">Estimated Departure</string>
+    <string name="departure_gate" translatable="false">My Departure Gate</string>
+    <string name="departure_sched" translatable="false">Sched. Departure</string>
+    <string name="departure_scheduled" translatable="false">Scheduled Departure</string>
 </resources>
