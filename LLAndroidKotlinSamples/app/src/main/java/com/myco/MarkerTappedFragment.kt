@@ -1,6 +1,6 @@
 package com.myco
 
-import android.net.Uri
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.locuslabs.sdk.llpublic.*
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MarkerTappedFragment: DialogFragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -128,9 +128,6 @@ class MarkerTappedFragment: DialogFragment() {
                 poi.name,
                 ignoreCase = true
             )
-
-        // Logo
-        val logo: File = File(flight.operatingFlightCode.airline.smallIconUrl)
 
         // Identifiers
         val floorId: String = poi.level.id
@@ -316,12 +313,11 @@ class MarkerTappedFragment: DialogFragment() {
         // Flight Status View Starting Location - Information Section
 
         // Airline Logo
-        if (logo.canRead()) {
-            val logo_uri = Uri.fromFile(logo)
-            val airline_logo_image_view =
-                requireView().findViewById<View>(R.id.ll_flight_view_airline_logo) as ImageView
-            airline_logo_image_view.setImageURI(logo_uri)
-        }
+        val logoInputStream = requireContext().assets.open(flight.operatingFlightCode.airline.smallIconUrl)
+        val logoDrawable = Drawable.createFromStream(logoInputStream, null)
+        val airline_logo_image_view =
+            requireView().findViewById<View>(R.id.ll_flight_view_airline_logo) as ImageView
+        airline_logo_image_view.setImageDrawable(logoDrawable)
 
         // Gate Type
         gate_type_text_view.text =

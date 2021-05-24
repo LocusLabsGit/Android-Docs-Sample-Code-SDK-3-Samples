@@ -12,7 +12,6 @@
         android:layout_height="24dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_weight="0.2"
         android:contentDescription="@string/ll_icon_airline_logo_description"
         android:scaleType="center" />
