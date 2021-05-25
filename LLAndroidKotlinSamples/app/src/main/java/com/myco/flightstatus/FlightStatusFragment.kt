@@ -1,4 +1,4 @@
-package com.myco
+package com.myco.flightstatus
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,11 +11,13 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.locuslabs.sdk.llpublic.*
+import com.myco.MainViewModel
+import com.myco.R
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MarkerTappedFragment: DialogFragment() {
+class FlightStatusFragment: DialogFragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     private lateinit var icon_image_view: ImageView

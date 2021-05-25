@@ -1,4 +1,4 @@
-package com.myco;
+package com.myco.flightstatus;
 
 import androidx.annotation.Nullable;
 

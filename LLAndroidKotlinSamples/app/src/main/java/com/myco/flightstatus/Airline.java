@@ -1,4 +1,4 @@
-package com.myco;
+package com.myco.flightstatus;
 
 /**
  * Describes an airline

@@ -14,7 +14,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/markerTappedFragmentContainerView"
-        android:name="com.myco.MarkerTappedFragment"
+        android:name="com.myco.flightstatus.FlightStatusFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent" />

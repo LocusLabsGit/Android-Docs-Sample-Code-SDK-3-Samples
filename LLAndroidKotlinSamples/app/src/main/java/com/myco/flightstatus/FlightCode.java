@@ -1,4 +1,4 @@
-package com.myco;
+package com.myco.flightstatus;
 
 /**
  * A flight code model
