@@ -6,24 +6,31 @@ import com.myco.R
 import java.util.*
 
 fun isArrivalGate(context: Context, poi: LLPOI, flight: Flight): Boolean {
-    return (context.getString(R.string.fs_common_gate) + " " + flight.arrivalGate.gate).equals(
+    return (context.getString(R.string.fs_common_gate) + " " + flight.arrivalGate?.gate).equals(
         poi.name,
         ignoreCase = true
     )
 }
 
 fun isDepartureGate(context: Context, poi: LLPOI, flight: Flight): Boolean {
-    return (context.getString(R.string.fs_common_gate) + " " + flight.departureGate.gate).equals(
+    return (context.getString(R.string.fs_common_gate) + " " + flight.departureGate?.gate).equals(
         poi.name,
         ignoreCase = true
     )
 }
 
 /**
+ * Creates a test airline
+ */
+fun oceanicAirline(): Airline {
+    return Airline("Oceanic Airlines", "fs_oceanic_airlines_logo.png")
+}
+
+/**
  * Create a test departing fly for LAX airport
  */
 fun laxConnectingFlight(): Flight {
-    val oceanic = Airline.Oceanic()
+    val oceanic = oceanicAirline()
     val oceanicFlightCode = FlightCode(oceanic, "815")
     val arrivalGate = Flight.AirportGate()
     arrivalGate.airportCode = "lax"

@@ -16,7 +16,6 @@ import com.myco.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class FlightStatusFragment: DialogFragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
 
@@ -131,19 +130,15 @@ class FlightStatusFragment: DialogFragment() {
 
         // Derived Flight Strings
         val arrivalVenue: String =
-            flight.arrivalGate.airportName.toString() + " ( " + flight.arrivalGate
-                .airportCode.toUpperCase(Locale.ROOT) + " )"
-        val departureVenue: String = flight.departureGate.airportName
-            .toString() + " ( " + flight.departureGate.airportCode.toUpperCase(Locale.ROOT) + " )"
-        val operatingFlight: String = flight.operatingFlightCode.airline.name
-            .toString() + " " + getString(R.string.fs_common_flight) + " " + flight.operatingFlightCode
-            .number
+            flight.arrivalGate?.airportName.toString() + " ( " + flight.arrivalGate?.airportCode?.toUpperCase(Locale.ROOT) + " )"
+        val departureVenue: String = flight.departureGate?.airportName
+            .toString() + " ( " + flight.departureGate?.airportCode?.toUpperCase(Locale.ROOT) + " )"
+        val operatingFlight: String = flight.operatingFlightCode?.airline?.name
+            .toString() + " " + getString(R.string.fs_common_flight) + " " + flight.operatingFlightCode?.number
         val hasArrivalGateBaggageClaim =
-            if (flight.arrivalGate.baggageClaim != null) flight.arrivalGate
-                .baggageClaim else getString(R.string.fs_common_unavailable)
+            if (flight.arrivalGate?.baggageClaim != null) flight.arrivalGate?.baggageClaim else getString(R.string.fs_common_unavailable)
         val hasDepartureGateBaggageClaim =
-            if (flight.departureGate.baggageClaim != null) flight.departureGate
-                .baggageClaim else getString(R.string.fs_common_unavailable)
+            if (flight.departureGate?.baggageClaim != null) flight.departureGate?.baggageClaim else getString(R.string.fs_common_unavailable)
 
         // Derived Date-Time Strings
         val dateFormatPattern = SimpleDateFormat("hh:mma", Locale.getDefault())
@@ -301,11 +296,13 @@ class FlightStatusFragment: DialogFragment() {
         // Flight Status View Starting Location - Information Section
 
         // Airline Logo
-        val logoInputStream = requireContext().assets.open(flight.operatingFlightCode.airline.smallIconUrl)
-        val logoDrawable = Drawable.createFromStream(logoInputStream, null)
-        val airline_logo_image_view =
-            requireView().findViewById<View>(R.id.fs_flight_view_airline_logo) as ImageView
-        airline_logo_image_view.setImageDrawable(logoDrawable)
+        flight.operatingFlightCode?.airline?.smallIconUrl?.let {
+            val logoInputStream = requireContext().assets.open(it)
+            val logoDrawable = Drawable.createFromStream(logoInputStream, null)
+            val airline_logo_image_view =
+                requireView().findViewById<View>(R.id.fs_flight_view_airline_logo) as ImageView
+            airline_logo_image_view.setImageDrawable(logoDrawable)
+        }
 
         // Gate Type
         gate_type_text_view.text =
