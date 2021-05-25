@@ -38,11 +38,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
             android:text=""
+            android:textSize="15sp"
+            android:textColor="#666666"
             app:drawableStartCompat="@drawable/ll_poi_icon_location"
             tools:text="Near Gate A23 · After security" />
 
@@ -50,12 +51,12 @@
             android:id="@+id/ll_flight_view_floor_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
             android:text=""
+            android:textSize="15sp"
+            android:textColor="#666666"
             app:drawableStartCompat="@drawable/ll_poi_icon_levels"
             tools:text="Level 2 · Departures" />
 
