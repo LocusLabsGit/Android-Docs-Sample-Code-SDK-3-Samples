@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.locuslabs.sdk.llprivate.llPublicDI
 import com.locuslabs.sdk.llpublic.*
 import androidx.activity.viewModels
 
@@ -66,12 +65,6 @@ class MarkersActivity  : AppCompatActivity() {
             }
         }
 
-        LLDependencyInjector.singleton.onLevelLoadingProgressListener = object : LLOnProgressListener {
-            override fun onProgressUpdate(fractionComplete: Double, progressDescription: String) {
-                updateLevelLoadingProgressIndicator(fractionComplete, progressDescription)
-            }
-        }
-
         LLDependencyInjector.singleton.onPOIURLClickedListener = object : LLOnPOIURLClickedListener {
             override fun onPOIURLClicked(url: String) {
                 val intent = Intent(Intent.ACTION_VIEW)
@@ -109,7 +102,7 @@ class MarkersActivity  : AppCompatActivity() {
 
         val llVenueDatabase = LLVenueDatabase()
 
-        var venueListCallback = object : LLOnGetVenueListCallback {
+        val venueListCallback = object : LLOnGetVenueListCallback {
 
             override fun successCallback(venueList: LLVenueList) {
 
@@ -154,20 +147,6 @@ class MarkersActivity  : AppCompatActivity() {
         initializationAnimationDrawable.setVisible(false, false)
     }
 
-    private fun updateLevelLoadingProgressIndicator(fractionComplete: Double, progressDescription: String) {
-
-        // Use this section to implement a loading progress indicator if desired
-        val percentComplete = (fractionComplete * FRACTION_TO_PERCENT_CONVERSION_RATIO).toInt()
-        Log.d(
-                "LOG",
-                "LocusMaps Android SDK Loading Progress: ${percentComplete}%\t${progressDescription}"
-        )
-
-        if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
-            // Load complete
-        }
-    }
-
     override fun onBackPressed() {
 
         if (llLocusMapsFragment.hasBackStackItems()) {
@@ -182,12 +161,12 @@ class MarkersActivity  : AppCompatActivity() {
 
     private fun mapReady() {
 
-        val llpoiDatabase = LLPOIDatabase()
-        llpoiDatabase.getPOIDetails(mainViewModel.venueID, mainViewModel.poiID, object : LLOnGetPOIDetailsCallback {
+        val llPOIDatabase = LLPOIDatabase()
+        llPOIDatabase.getPOIDetails(mainViewModel.venueID, mainViewModel.poiID, object : LLOnGetPOIDetailsCallback {
 
-            override fun successCallback(llpoi: LLPOI) {
-                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.pin_plane_landing)
-                llLocusMapsFragment.showMarker("MarkerID", llpoi.level.ordinal, llpoi.latLng, markerImage, object: LLOnMarkerClickListener {
+            override fun successCallback(poi: LLPOI) {
+                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.fs_pin_plane_landing)
+                llLocusMapsFragment.showMarker("MarkerID", poi.level.ordinal, poi.latLng, markerImage, object: LLOnMarkerClickListener {
 
                     override fun onMarkerClick(markerID: String) {
                         mainViewModel.showMarkerTappedFragment.value = true

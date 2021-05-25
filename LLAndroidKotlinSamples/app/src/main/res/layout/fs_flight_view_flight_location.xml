@@ -45,7 +45,7 @@
             android:textSize="15sp"
             android:textColor="#666666"
             app:drawableStartCompat="@drawable/fs_poi_icon_location"
-            tools:text="Near Gate A23 · After security" />
+            tools:text="Near Gate A23" />
 
         <TextView
             android:id="@+id/fs_flight_view_floor_text"

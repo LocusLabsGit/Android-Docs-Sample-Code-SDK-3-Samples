@@ -131,17 +131,12 @@ class FlightStatusFragment: DialogFragment() {
                 ignoreCase = true
             )
 
-        // Identifiers
-        val floorId: String = poi.level.id
-
         // LL Class Objects
-        val building: LLBuilding = poi.level.building
         val level: LLLevel = poi.level
 
         // Derived POI Strings
         val poiName: String = poi.name
         val floorDescription: String = level.name
-//        val securityStatus = if (poi.isAfterSecurity()) getString(R.string.security_after) else getString(R.string.security_before)
 
         // Derived Flight Strings
         val arrivalVenue: String =
@@ -301,7 +296,7 @@ class FlightStatusFragment: DialogFragment() {
         // Flight Status View Location Section
 
         // Header Pin Icon
-        icon_image_view.setImageResource(if (isArrivalGate) R.drawable.pin_plane_landing else R.drawable.pin_plane_takeoff)
+        icon_image_view.setImageResource(if (isArrivalGate) R.drawable.fs_pin_plane_landing else R.drawable.fs_pin_plane_takeoff)
 
         // Gate Text
         gate_text_view.text = poiName
