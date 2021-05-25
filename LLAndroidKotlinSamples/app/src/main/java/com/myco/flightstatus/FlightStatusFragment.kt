@@ -24,6 +24,8 @@ class FlightStatusFragment: DialogFragment() {
     private lateinit var section_text_view: TextView
     private lateinit var floor_text_view: TextView
 
+    private lateinit var fsGetDirectionsButtonLayout: View
+
     private lateinit var gate_type_text_view: TextView
     private lateinit var flight_status_view_flight_number_text: TextView
     private lateinit var flight_status_view_starting_venue_text: TextView
@@ -49,6 +51,8 @@ class FlightStatusFragment: DialogFragment() {
         initUIObservers()
 
         initIDs()
+
+        initListeners()
     }
 
     private fun initIDs() {
@@ -56,6 +60,7 @@ class FlightStatusFragment: DialogFragment() {
         gate_text_view = requireView().findViewById(R.id.fs_flight_view_gate_text)
         section_text_view = requireView().findViewById(R.id.fs_flight_view_section_text)
         floor_text_view = requireView().findViewById(R.id.fs_flight_view_floor_text)
+        fsGetDirectionsButtonLayout = requireView().findViewById(R.id.fsGetDirectionsButtonLayout)
         gate_type_text_view = requireView().findViewById(R.id.fs_flight_view_gate_type_text)
         flight_status_view_flight_number_text =
             requireView().findViewById(R.id.flight_status_view_flight_number_text)
@@ -83,12 +88,16 @@ class FlightStatusFragment: DialogFragment() {
         mainViewModel.showFlightStatusFragment.observe(
             viewLifecycleOwner, {
                 if (it) {
+                    mainViewModel.showFlightStatusFragment.value = false
+
                     LLPOIDatabase().getPOIDetails(
                         mainViewModel.venueID,
                         mainViewModel.poiID,
                         object : LLOnGetPOIDetailsCallback {
                             override fun successCallback(poi: LLPOI) {
                                 setFlightStatusViewText(poi, mainViewModel.flight)
+
+                                requireView().visibility = View.VISIBLE
                             }
 
                             override fun failureCallback(throwable: Throwable) {
@@ -96,15 +105,26 @@ class FlightStatusFragment: DialogFragment() {
                             }
                         })
                 }
+            }
+        )
 
-                requireView().visibility = if (it) View.VISIBLE else View.GONE
+        mainViewModel.hideFlightStatusFragment.observe(
+            viewLifecycleOwner, {
+                if (it) {
+                    mainViewModel.hideFlightStatusFragment.value = false
+
+                    requireView().visibility = View.GONE
+                }
             }
         )
     }
 
-    //===============================//
-    //  Implement Overriding Methods //
-    //===============================//
+    private fun initListeners() {
+        fsGetDirectionsButtonLayout.setOnClickListener {
+            mainViewModel.showNavigation.value = true
+        }
+    }
+
     private fun setFlightStatusViewText(poi: LLPOI, flight: Flight) {
 
         //================//
@@ -274,10 +294,6 @@ class FlightStatusFragment: DialogFragment() {
                     estimated_ending_time_text_view.layoutParams
             }
         }
-
-        //=================//
-        // Implementations //
-        //=================//
 
         // Flight Status View Location Section
 

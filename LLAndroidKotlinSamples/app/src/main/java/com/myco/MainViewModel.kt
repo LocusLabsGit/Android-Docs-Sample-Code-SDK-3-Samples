@@ -14,4 +14,6 @@ class MainViewModel : ViewModel() {
     val flight = laxConnectingFlight()
 
     val showFlightStatusFragment = MutableLiveData(false)
+    val hideFlightStatusFragment = MutableLiveData(false)
+    val showNavigation = MutableLiveData(false)
 }

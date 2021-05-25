@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:visibility="gone">
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.core.widget.NestedScrollView
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/flight_status_view_bottom_sheet"
         android:layout_width="match_parent"
@@ -67,46 +66,17 @@
                     app:layout_constraintTop_toTopOf="@+id/fsBottomSheetHeaderTopRimBackground"
                     tools:tint="#64000000" />
 
-                <View
-                    android:id="@+id/llVisibleForTestingMinimizeWindowForTesting"
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="32dp"
-                    android:background="@null"
-                    app:layout_constraintStart_toEndOf="@+id/llBottomSheetHeaderSelectorCloseControl"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/llVisibleForTestingMaximizeWindowForTesting"
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    app:layout_constraintStart_toEndOf="@+id/llVisibleForTestingMinimizeWindowForTesting"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/llVisibleForTestingScrollWindowToBottomForTesting"
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    app:layout_constraintStart_toEndOf="@+id/llVisibleForTestingMaximizeWindowForTesting"
-                    app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Flight POI Location Information -->
             <include layout="@layout/fs_flight_view_flight_location" />
 
-            <!-- Floating Action Buttons -->
-            <include layout="@layout/fs_flight_button_grid"
+            <include android:id="@+id/fsGetDirectionsButtonLayout"
+                layout="@layout/fs_get_directions_button_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp" />
 
-            <!-- Relevant Flight Information -->
             <include layout="@layout/fs_flight_view_flight_information" />
 
         </LinearLayout>

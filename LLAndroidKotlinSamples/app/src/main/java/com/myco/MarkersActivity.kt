@@ -16,7 +16,7 @@ import androidx.activity.viewModels
 import com.myco.flightstatus.isArrivalGate
 import com.myco.flightstatus.isDepartureGate
 
-class MarkersActivity  : AppCompatActivity() {
+class MarkersActivity : AppCompatActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
 
     private lateinit var llLocusMapsFragment: LLLocusMapsFragment
@@ -31,7 +31,8 @@ class MarkersActivity  : AppCompatActivity() {
         setContentView(R.layout.fullscreen_map)
 
         // Reference views
-        initializationAnimationViewBackground = findViewById(R.id.initializationAnimationViewBackground)
+        initializationAnimationViewBackground =
+            findViewById(R.id.initializationAnimationViewBackground)
         initializationAnimationView = findViewById(R.id.initializationAnimationView)
 
         initLocusMaps()
@@ -41,10 +42,11 @@ class MarkersActivity  : AppCompatActivity() {
 
     private fun initLocusMaps() {
 
-        llLocusMapsFragment = supportFragmentManager.findFragmentById(R.id.llLocusMapsFragment) as LLLocusMapsFragment
+        llLocusMapsFragment =
+            supportFragmentManager.findFragmentById(R.id.llLocusMapsFragment) as LLLocusMapsFragment
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
-                FragmentManager.FragmentLifecycleCallbacks() {
+            FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
                 super.onFragmentStarted(fm, f)
 
@@ -57,31 +59,37 @@ class MarkersActivity  : AppCompatActivity() {
 
         }, false)
 
-        LLDependencyInjector.singleton.onInitializationProgressListener = object : LLOnProgressListener {
-            override fun onProgressUpdate(fractionComplete: Double, progressDescription: String) {
-                if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
+        LLDependencyInjector.singleton.onInitializationProgressListener =
+            object : LLOnProgressListener {
+                override fun onProgressUpdate(
+                    fractionComplete: Double,
+                    progressDescription: String
+                ) {
+                    if (PROGRESS_BAR_FRACTION_FINISH == fractionComplete) {
 
-                    hideInitializationProgressIndicator()
-                    mapReady()
+                        hideInitializationProgressIndicator()
+                        mapReady()
+                    }
                 }
             }
-        }
 
-        LLDependencyInjector.singleton.onPOIURLClickedListener = object : LLOnPOIURLClickedListener {
-            override fun onPOIURLClicked(url: String) {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url)
-                this@MarkersActivity.startActivity(intent)
+        LLDependencyInjector.singleton.onPOIURLClickedListener =
+            object : LLOnPOIURLClickedListener {
+                override fun onPOIURLClicked(url: String) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    this@MarkersActivity.startActivity(intent)
+                }
             }
-        }
 
-        LLDependencyInjector.singleton.onPOIPhoneClickedListener = object : LLOnPOIPhoneClickedListener {
-            override fun onPOIPhoneClicked(phone: String) {
-                val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:$phone")
-                this@MarkersActivity.startActivity(intent)
+        LLDependencyInjector.singleton.onPOIPhoneClickedListener =
+            object : LLOnPOIPhoneClickedListener {
+                override fun onPOIPhoneClicked(phone: String) {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse("tel:$phone")
+                    this@MarkersActivity.startActivity(intent)
+                }
             }
-        }
 
         LLDependencyInjector.singleton.onWarningListener = object : LLOnWarningListener {
 
@@ -109,13 +117,17 @@ class MarkersActivity  : AppCompatActivity() {
             override fun successCallback(venueList: LLVenueList) {
 
                 val venueListEntry = venueList[mainViewModel.venueID]
-                        ?: // A venue loading error occurred
-                        return
+                    ?: // A venue loading error occurred
+                    return
 
                 val llVenueAssetVersion = venueListEntry.assetVersion
                 val llVenueFiles = venueListEntry.files
 
-                llLocusMapsFragment.showVenue(mainViewModel.venueID, llVenueAssetVersion, llVenueFiles)
+                llLocusMapsFragment.showVenue(
+                    mainViewModel.venueID,
+                    llVenueAssetVersion,
+                    llVenueFiles
+                )
             }
 
             override fun failureCallback(throwable: Throwable) {
@@ -130,7 +142,8 @@ class MarkersActivity  : AppCompatActivity() {
     private fun initInitializationProgressIndicator() {
 
         initializationAnimationView.setBackgroundResource(R.drawable.ll_navigation_loading_animation)
-        initializationAnimationDrawable = initializationAnimationView.background as AnimationDrawable
+        initializationAnimationDrawable =
+            initializationAnimationView.background as AnimationDrawable
         initializationAnimationDrawable.start()
         initializationAnimationDrawable.setVisible(false, false)
     }
@@ -154,8 +167,7 @@ class MarkersActivity  : AppCompatActivity() {
         if (llLocusMapsFragment.hasBackStackItems()) {
 
             llLocusMapsFragment.popBackStack()
-        }
-        else {
+        } else {
 
             super.onBackPressed()
         }
@@ -164,30 +176,52 @@ class MarkersActivity  : AppCompatActivity() {
     private fun mapReady() {
 
         val llPOIDatabase = LLPOIDatabase()
-        llPOIDatabase.getPOIDetails(mainViewModel.venueID, mainViewModel.poiID, object : LLOnGetPOIDetailsCallback {
+        llPOIDatabase.getPOIDetails(
+            mainViewModel.venueID,
+            mainViewModel.poiID,
+            object : LLOnGetPOIDetailsCallback {
 
-            override fun successCallback(poi: LLPOI) {
-                val planeIcon = when {
-                    isArrivalGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
-                        R.drawable.fs_pin_plane_landing
+                override fun successCallback(poi: LLPOI) {
+                    val planeIcon = when {
+                        isArrivalGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
+                            R.drawable.fs_pin_plane_landing
+                        }
+                        isDepartureGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
+                            R.drawable.fs_pin_plane_takeoff
+                        }
+                        else -> {
+                            TODO("Not yet implemented how to handle when not arrival nor departure")
+                        }
                     }
-                    isDepartureGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
-                        R.drawable.fs_pin_plane_takeoff
-                    }
-                    else -> {
-                        TODO("Not yet implemented how to handle when not arrival nor departure")
-                    }
+                    val markerImage = BitmapFactory.decodeResource(resources, planeIcon)
+                    llLocusMapsFragment.showMarker(
+                        "marker-id-${poi.id}",
+                        poi.level.ordinal,
+                        poi.latLng,
+                        markerImage,
+                        object : LLOnMarkerClickListener {
+                            override fun onMarkerClick(markerID: String) {
+                                mainViewModel.showFlightStatusFragment.value = true
+                            }
+                        })
                 }
-                val markerImage = BitmapFactory.decodeResource(resources, planeIcon)
-                llLocusMapsFragment.showMarker("MarkerID", poi.level.ordinal, poi.latLng, markerImage, object: LLOnMarkerClickListener {
 
-                    override fun onMarkerClick(markerID: String) {
-                        mainViewModel.showFlightStatusFragment.value = true
-                    }
-                })
+                override fun failureCallback(throwable: Throwable) {}
+            })
+
+        mainViewModel.showNavigation.observe(this, {
+            if (it) {
+                mainViewModel.showNavigation.value = false
+
+                llLocusMapsFragment.showDirections(
+                    LLNavigationPointForCurrentLocation,
+                    LLNavigationPointForPOI(mainViewModel.poiID),
+                    LLNavAccessibilityType.Direct,
+                    mapOf()
+                )
+
+                mainViewModel.hideFlightStatusFragment.value = true
             }
-
-            override fun failureCallback(throwable: Throwable) {}
         })
     }
 }
