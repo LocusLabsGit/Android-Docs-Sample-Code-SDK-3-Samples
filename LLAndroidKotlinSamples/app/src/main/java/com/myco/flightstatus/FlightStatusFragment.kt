@@ -81,7 +81,7 @@ class FlightStatusFragment: DialogFragment() {
     }
 
     private fun initUIObservers() {
-        mainViewModel.showMarkerTappedFragment.observe(
+        mainViewModel.showFlightStatusFragment.observe(
             viewLifecycleOwner, {
                 if (it) {
                     LLPOIDatabase().getPOIDetails(
@@ -89,8 +89,7 @@ class FlightStatusFragment: DialogFragment() {
                         mainViewModel.poiID,
                         object : LLOnGetPOIDetailsCallback {
                             override fun successCallback(poi: LLPOI) {
-                                val flight = laxDepartingFlight()
-                                setFlightStatusViewText(poi, flight)
+                                setFlightStatusViewText(poi, mainViewModel.flight)
                             }
 
                             override fun failureCallback(throwable: Throwable) {
@@ -120,16 +119,8 @@ class FlightStatusFragment: DialogFragment() {
         var estimatedDepartureTime = ""
 
         //Boolean Determinant Factor
-        val isArrivalGate =
-            (getString(R.string.fs_common_gate) + " " + flight.arrivalGate.gate).equals(
-                poi.name,
-                ignoreCase = true
-            )
-        val isDepartingGate =
-            (getString(R.string.fs_common_gate) + " " + flight.departureGate.gate).equals(
-                poi.name,
-                ignoreCase = true
-            )
+        val isArrivalGate = isArrivalGate(requireContext(), poi, flight)
+        val isDepartingGate = isDepartureGate(requireContext(), poi, flight)
 
         // LL Class Objects
         val level: LLLevel = poi.level
@@ -361,75 +352,5 @@ class FlightStatusFragment: DialogFragment() {
 
         // Flight Status information's recency
         updated_information_text_view.text = ""
-    }
-
-    /**
-     * Add an departing fly for LAX airport
-     */
-    private fun laxDepartingFlight(): Flight {
-        val oceanic = Airline.Oceanic()
-        val oceanicFlightCode = FlightCode(oceanic, "815")
-        val arrivalGate = Flight.AirportGate()
-        arrivalGate.airportCode = "lax"
-        arrivalGate.airportName = "Los Angeles"
-        arrivalGate.gate = "60"
-        arrivalGate.baggageClaim = "1000"
-        val departingGate = Flight.AirportGate()
-        departingGate.airportCode = "lax"
-        departingGate.airportName = "Los Angeles"
-        departingGate.gate = "61"
-        departingGate.baggageClaim = "1"
-        val departureDate = Date(1541440055748L)
-        val arrivalDate = Date(departureDate.time + 100000)
-        val arrivalTimes: Flight.Times = Flight.Times()
-        arrivalTimes.actual = arrivalDate
-        arrivalTimes.estimated = arrivalDate
-        arrivalTimes.scheduled = arrivalDate
-        val departureTimes: Flight.Times = Flight.Times()
-        departureTimes.actual = departureDate
-        departureTimes.estimated = departureDate
-        departureTimes.scheduled = departureDate
-        val oceanicFlight815 = Flight()
-        oceanicFlight815.operatingFlightCode = oceanicFlightCode
-        oceanicFlight815.departureGate = departingGate
-        oceanicFlight815.arrivalGate = arrivalGate
-        oceanicFlight815.departureTimes = departureTimes
-        oceanicFlight815.arrivalTimes = arrivalTimes
-        return oceanicFlight815
-    }
-
-    /**
-     * Builds an arriving Flight for LAX
-     */
-    private fun laxArrivingFlight(): Flight {
-        val oceanic = Airline.Oceanic()
-        val oceanicFlightCode = FlightCode(oceanic, "3313")
-        val arrivingGate = Flight.AirportGate()
-        arrivingGate.airportCode = "lax"
-        arrivingGate.airportName = "Los Angeles"
-        arrivingGate.gate = "35"
-        arrivingGate.baggageClaim = "2000"
-        val departingGate = Flight.AirportGate()
-        departingGate.airportCode = "sea"
-        departingGate.airportName = "Seattle Tacoma International Airport"
-        departingGate.gate = "d1"
-        departingGate.baggageClaim = "2"
-        val departureDate = Date(1541440856407L)
-        val arrivalDate = Date(departureDate.time + 100000)
-        val arrivalTimes: Flight.Times = Flight.Times()
-        arrivalTimes.actual = arrivalDate
-        arrivalTimes.estimated = arrivalDate
-        arrivalTimes.scheduled = arrivalDate
-        val departureTimes: Flight.Times = Flight.Times()
-        departureTimes.actual = departureDate
-        departureTimes.estimated = departureDate
-        departureTimes.scheduled = departureDate
-        val oceanicFlight3313 = Flight()
-        oceanicFlight3313.operatingFlightCode = oceanicFlightCode
-        oceanicFlight3313.arrivalGate = arrivingGate
-        oceanicFlight3313.departureGate = departingGate
-        oceanicFlight3313.arrivalTimes = arrivalTimes
-        oceanicFlight3313.departureTimes = departureTimes
-        return oceanicFlight3313
     }
 }

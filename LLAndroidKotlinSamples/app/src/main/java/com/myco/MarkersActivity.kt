@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.locuslabs.sdk.llpublic.*
 import androidx.activity.viewModels
+import com.myco.flightstatus.isArrivalGate
+import com.myco.flightstatus.isDepartureGate
 
 class MarkersActivity  : AppCompatActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
@@ -165,11 +167,22 @@ class MarkersActivity  : AppCompatActivity() {
         llPOIDatabase.getPOIDetails(mainViewModel.venueID, mainViewModel.poiID, object : LLOnGetPOIDetailsCallback {
 
             override fun successCallback(poi: LLPOI) {
-                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.fs_pin_plane_landing)
+                val planeIcon = when {
+                    isArrivalGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
+                        R.drawable.fs_pin_plane_landing
+                    }
+                    isDepartureGate(this@MarkersActivity, poi, mainViewModel.flight) -> {
+                        R.drawable.fs_pin_plane_takeoff
+                    }
+                    else -> {
+                        TODO("Not yet implemented how to handle when not arrival nor departure")
+                    }
+                }
+                val markerImage = BitmapFactory.decodeResource(resources, planeIcon)
                 llLocusMapsFragment.showMarker("MarkerID", poi.level.ordinal, poi.latLng, markerImage, object: LLOnMarkerClickListener {
 
                     override fun onMarkerClick(markerID: String) {
-                        mainViewModel.showMarkerTappedFragment.value = true
+                        mainViewModel.showFlightStatusFragment.value = true
                     }
                 })
             }
