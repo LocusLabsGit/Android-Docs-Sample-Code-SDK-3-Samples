@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ll_poi_view_get_directions_button_background">
+    android:background="@drawable/fs_poi_view_get_directions_button_background">
 
     <ImageView
-        android:id="@+id/ll_flight_button_directions_icon"
+        android:id="@+id/fs_flight_button_directions_icon"
         android:layout_width="16.5dp"
         android:layout_height="16.5dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/fs_show_directions"
-        android:src="@drawable/ll_directions_button_icon"
+        android:src="@drawable/fs_directions_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ll_flight_button_directions_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/fs_flight_button_directions_text_view"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         app:tint="#fff5f6f6" />
 
     <TextView
-        android:id="@+id/ll_flight_button_directions_text_view"
+        android:id="@+id/fs_flight_button_directions_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ll_flight_button_directions_icon"
+        app:layout_constraintStart_toEndOf="@+id/fs_flight_button_directions_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

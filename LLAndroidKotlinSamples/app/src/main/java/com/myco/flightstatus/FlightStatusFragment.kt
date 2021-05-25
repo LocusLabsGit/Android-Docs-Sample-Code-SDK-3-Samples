@@ -41,7 +41,7 @@ class FlightStatusFragment: DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.ll_flight_view, container, false)
+        return inflater.inflate(R.layout.fs_flight_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,11 +53,11 @@ class FlightStatusFragment: DialogFragment() {
     }
 
     private fun initIDs() {
-        icon_image_view = requireView().findViewById(R.id.ll_flight_view_plane_pin)
-        gate_text_view = requireView().findViewById(R.id.ll_flight_view_gate_text)
-        section_text_view = requireView().findViewById(R.id.ll_flight_view_section_text)
-        floor_text_view = requireView().findViewById(R.id.ll_flight_view_floor_text)
-        gate_type_text_view = requireView().findViewById(R.id.ll_flight_view_gate_type_text)
+        icon_image_view = requireView().findViewById(R.id.fs_flight_view_plane_pin)
+        gate_text_view = requireView().findViewById(R.id.fs_flight_view_gate_text)
+        section_text_view = requireView().findViewById(R.id.fs_flight_view_section_text)
+        floor_text_view = requireView().findViewById(R.id.fs_flight_view_floor_text)
+        gate_type_text_view = requireView().findViewById(R.id.fs_flight_view_gate_type_text)
         flight_status_view_flight_number_text =
             requireView().findViewById(R.id.flight_status_view_flight_number_text)
         flight_status_view_starting_venue_text =
@@ -318,7 +318,7 @@ class FlightStatusFragment: DialogFragment() {
         val logoInputStream = requireContext().assets.open(flight.operatingFlightCode.airline.smallIconUrl)
         val logoDrawable = Drawable.createFromStream(logoInputStream, null)
         val airline_logo_image_view =
-            requireView().findViewById<View>(R.id.ll_flight_view_airline_logo) as ImageView
+            requireView().findViewById<View>(R.id.fs_flight_view_airline_logo) as ImageView
         airline_logo_image_view.setImageDrawable(logoDrawable)
 
         // Gate Type

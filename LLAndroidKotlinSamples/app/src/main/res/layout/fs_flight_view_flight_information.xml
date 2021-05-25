@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/ll_flight_view_airline_logo"
+        android:id="@+id/fs_flight_view_airline_logo"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="36dp"
@@ -24,7 +24,7 @@
         android:orientation="vertical">
         <!-- Flavor Text -->
         <TextView
-            android:id="@+id/ll_flight_view_gate_type_text"
+            android:id="@+id/fs_flight_view_gate_type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
