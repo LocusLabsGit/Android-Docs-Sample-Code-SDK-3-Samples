@@ -15,7 +15,7 @@ public class Airline {
 
     static public Airline Oceanic() {
         if (oceanic == null) {
-            oceanic = new Airline("Oceanic Airlines", "oceanic_airlines_logo.png");
+            oceanic = new Airline("Oceanic Airlines", "fs_oceanic_airlines_logo.png");
         }
         return oceanic;
     }
