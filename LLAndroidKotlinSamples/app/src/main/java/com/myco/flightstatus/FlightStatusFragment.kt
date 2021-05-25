@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.locuslabs.sdk.llpublic.*
 import com.myco.MainViewModel
 import com.myco.R
@@ -37,6 +38,8 @@ class FlightStatusFragment: DialogFragment() {
     private lateinit var estimated_ending_time_text_view: TextView
     private lateinit var next_gate_baggage_claim_text_view: TextView
     private lateinit var updated_information_text_view: TextView
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +85,7 @@ class FlightStatusFragment: DialogFragment() {
         updated_information_text_view =
             requireView().findViewById(R.id.flight_status_view_updated_information)
 
+        bottomSheetBehavior = BottomSheetBehavior.from(requireView().findViewById(R.id.flight_status_view_bottom_sheet))
     }
 
     private fun initUIObservers() {
@@ -98,6 +102,7 @@ class FlightStatusFragment: DialogFragment() {
                                 setFlightStatusViewText(poi, mainViewModel.flight)
 
                                 requireView().visibility = View.VISIBLE
+                                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                             }
 
                             override fun failureCallback(throwable: Throwable) {
@@ -113,6 +118,7 @@ class FlightStatusFragment: DialogFragment() {
                 if (it) {
                     mainViewModel.hideFlightStatusFragment.value = false
 
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     requireView().visibility = View.GONE
                 }
             }
