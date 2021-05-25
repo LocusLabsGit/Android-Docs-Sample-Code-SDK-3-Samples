@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:background="@color/ll_light_grayish_white"
+    android:background="#fff9f9f9"
     android:orientation="horizontal">
 
     <ImageView
@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_weight="0.1"
-        android:contentDescription="@string/ll_icon_airplane_pin_description" />
+        android:contentDescription="@string/fs_icon_airplane_pin_description" />
 
     <LinearLayout
         android:layout_width="wrap_content"

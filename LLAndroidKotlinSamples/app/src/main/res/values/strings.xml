@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">LLSDK Samples</string>
-    <string name="ll_icon_airplane_pin_description" translatable="false">An icon inside that shows an airplane.</string>
-    <string name="ll_icon_caret_down_description" translatable="false">This is a caret symbol pointed down, denoting that the associated view may be moved in a downward fashion or visualizes as a cue to look below the symbol.</string>
-    <string name="ll_common_bottom_directions" translatable="false">Directions</string>
-    <string name="ll_icon_airline_logo_description" translatable="false">A logo belonging to an Airline.</string>
-    <string name="ll_common_gate" translatable="false">gate</string>
-    <string name="ll_common_flight" translatable="false">Flight</string>
-    <string name="ll_common_unavailable" translatable="false">Not Available</string>
+    <string name="fs_icon_airplane_pin_description" translatable="false">An icon inside that shows an airplane.</string>
+    <string name="fs_icon_caret_down_description" translatable="false">This is a caret symbol pointed down, denoting that the associated view may be moved in a downward fashion or visualizes as a cue to look below the symbol.</string>
+    <string name="fs_common_bottom_directions" translatable="false">Directions</string>
+    <string name="fs_icon_airline_logo_description" translatable="false">A logo belonging to an Airline.</string>
+    <string name="fs_common_gate" translatable="false">gate</string>
+    <string name="fs_common_flight" translatable="false">Flight</string>
+    <string name="fs_common_unavailable" translatable="false">Not Available</string>
+    <string name="fs_bottom_sheet_drag_control" translatable="false">Drag here to expand or collapse this window</string>
+    <string name="fs_an_animated_image_letting_you_know_that_that_the_navigation_is_loading" translatable="false">This is an animated image letting you know that the navigation is loading</string>
+    <string name="fs_show_directions" translatable="false">Get Directions</string>
     <string name="arrival_act" translatable="false">Act. Arrival</string>
     <string name="arrival_actual" translatable="false">Actual Arrival</string>
     <string name="arrival_est" translatable="false">Est. Arrival</string>

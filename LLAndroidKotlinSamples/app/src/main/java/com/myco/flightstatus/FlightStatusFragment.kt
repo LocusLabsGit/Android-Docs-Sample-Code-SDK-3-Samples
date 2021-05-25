@@ -121,12 +121,12 @@ class FlightStatusFragment: DialogFragment() {
 
         //Boolean Determinant Factor
         val isArrivalGate =
-            (getString(R.string.ll_common_gate) + " " + flight.arrivalGate.gate).equals(
+            (getString(R.string.fs_common_gate) + " " + flight.arrivalGate.gate).equals(
                 poi.name,
                 ignoreCase = true
             )
         val isDepartingGate =
-            (getString(R.string.ll_common_gate) + " " + flight.departureGate.gate).equals(
+            (getString(R.string.fs_common_gate) + " " + flight.departureGate.gate).equals(
                 poi.name,
                 ignoreCase = true
             )
@@ -150,14 +150,14 @@ class FlightStatusFragment: DialogFragment() {
         val departureVenue: String = flight.departureGate.airportName
             .toString() + " ( " + flight.departureGate.airportCode.toUpperCase(Locale.ROOT) + " )"
         val operatingFlight: String = flight.operatingFlightCode.airline.name
-            .toString() + " " + getString(R.string.ll_common_flight) + " " + flight.operatingFlightCode
+            .toString() + " " + getString(R.string.fs_common_flight) + " " + flight.operatingFlightCode
             .number
         val hasArrivalGateBaggageClaim =
             if (flight.arrivalGate.baggageClaim != null) flight.arrivalGate
-                .baggageClaim else getString(R.string.ll_common_unavailable)
+                .baggageClaim else getString(R.string.fs_common_unavailable)
         val hasDepartureGateBaggageClaim =
             if (flight.departureGate.baggageClaim != null) flight.departureGate
-                .baggageClaim else getString(R.string.ll_common_unavailable)
+                .baggageClaim else getString(R.string.fs_common_unavailable)
 
         // Derived Date-Time Strings
         val dateFormatPattern = SimpleDateFormat("hh:mma", Locale.getDefault())

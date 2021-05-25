@@ -10,7 +10,7 @@
         android:layout_width="16.5dp"
         android:layout_height="16.5dp"
         android:layout_marginEnd="8dp"
-        android:contentDescription="@string/ll_show_directions"
+        android:contentDescription="@string/fs_show_directions"
         android:src="@drawable/ll_directions_button_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ll_flight_button_directions_text_view"
@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/ll_white" />
+        app:tint="#fff5f6f6" />
 
     <TextView
         android:id="@+id/ll_flight_button_directions_text_view"
@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/ll_show_directions"
-        android:textColor="@color/ll_white"
+        android:text="@string/fs_show_directions"
+        android:textColor="#fff5f6f6"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -8,6 +8,7 @@
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/flight_status_view_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,13 +23,78 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:background="@color/ll_light_grayish_white"
+            android:background="#fff9f9f9"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/ll_bottom_sheet_header_top_rim"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="18dp" />
+                android:layout_height="18dp"
+                android:background="@null">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:alpha="0.4"
+                    android:background="@drawable/fs_bottom_sheet_top_rim_drop_shadow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/fsBottomSheetHeaderTopRimBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/fs_bottom_sheet_top_rim"
+                    android:layout_marginTop="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:backgroundTint="#FFFFFF" />
+
+                <ImageView
+                    android:id="@+id/llBottomSheetHeaderSelectorCloseControl"
+                    android:layout_width="31dp"
+                    android:layout_height="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/fs_bottom_sheet_drag_control"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/fs_bottom_sheet_close_control_small_rectangle"
+                    app:layout_constraintBottom_toBottomOf="@+id/fsBottomSheetHeaderTopRimBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/fsBottomSheetHeaderTopRimBackground"
+                    tools:tint="#64000000" />
+
+                <View
+                    android:id="@+id/llVisibleForTestingMinimizeWindowForTesting"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="32dp"
+                    android:background="@null"
+                    app:layout_constraintStart_toEndOf="@+id/llBottomSheetHeaderSelectorCloseControl"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/llVisibleForTestingMaximizeWindowForTesting"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    app:layout_constraintStart_toEndOf="@+id/llVisibleForTestingMinimizeWindowForTesting"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/llVisibleForTestingScrollWindowToBottomForTesting"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    app:layout_constraintStart_toEndOf="@+id/llVisibleForTestingMaximizeWindowForTesting"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Flight POI Location Information -->
             <include layout="@layout/ll_flight_view_flight_location" />
