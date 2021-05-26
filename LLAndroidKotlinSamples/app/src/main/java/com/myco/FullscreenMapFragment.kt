@@ -41,32 +41,32 @@ class FullscreenMapFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onStart()
+        llLocusMapsFragment?.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onPause()
+        llLocusMapsFragment?.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop()
+        llLocusMapsFragment?.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onStop()
+        llLocusMapsFragment?.onStop()
     }
 
     override fun onResume() {
         super.onResume()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onResume()
+        llLocusMapsFragment?.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (llLocusMapsFragment != null) llLocusMapsFragment.onDestroy()
+        llLocusMapsFragment?.onDestroy()
     }
 
     fun initLocusMaps() {

@@ -37,6 +37,36 @@ class DirectionsStepsETAActivity : AppCompatActivity() {
         showInitializationProgressIndicator()
     }
 
+    override fun onStart() {
+        super.onStart()
+        llLocusMapsFragment?.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        llLocusMapsFragment?.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        llLocusMapsFragment?.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        llLocusMapsFragment?.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        llLocusMapsFragment?.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        llLocusMapsFragment?.onDestroy()
+    }
+
     private fun initLocusMaps() {
 
         llLocusMapsFragment = supportFragmentManager.findFragmentById(R.id.llLocusMapsFragment) as LLLocusMapsFragment
