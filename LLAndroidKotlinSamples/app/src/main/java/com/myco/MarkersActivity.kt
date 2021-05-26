@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.locuslabs.sdk.llprivate.llPublicDI
 import com.locuslabs.sdk.llpublic.*
 
 class MarkersActivity  : AppCompatActivity() {
@@ -34,6 +33,36 @@ class MarkersActivity  : AppCompatActivity() {
         initLocusMaps()
         initInitializationProgressIndicator()
         showInitializationProgressIndicator()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        llLocusMapsFragment?.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        llLocusMapsFragment?.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        llLocusMapsFragment?.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        llLocusMapsFragment?.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        llLocusMapsFragment?.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        llLocusMapsFragment?.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -187,13 +216,20 @@ class MarkersActivity  : AppCompatActivity() {
         llpoiDatabase.getPOIDetails("lax", "870", object : LLOnGetPOIDetailsCallback {
 
             override fun successCallback(llpoi: LLPOI) {
-                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.starbucks)
-                llLocusMapsFragment.showMarker("MarkerID", llpoi.level.ordinal, llpoi.latLng, markerImage, object: LLOnMarkerClickListener {
 
-                    override fun onMarkerClick(markerID: String) {
-                        // Take action if the marker is tapped, if desired
-                    }
-                })
+                val markerImage = BitmapFactory.decodeResource(resources, R.drawable.starbucks)
+
+                llLocusMapsFragment.showMarker(
+                    "MarkerID",
+                    llpoi.level.ordinal,
+                    llpoi.latLng,
+                    markerImage,
+                    object : LLOnMarkerClickListener {
+                        override fun onMarkerClick(s: String) {
+
+                            // Marker tapped with id s
+                        }
+                    })
             }
 
             override fun failureCallback(throwable: Throwable) {}

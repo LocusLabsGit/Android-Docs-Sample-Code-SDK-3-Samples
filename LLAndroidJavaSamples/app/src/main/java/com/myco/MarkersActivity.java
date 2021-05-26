@@ -24,6 +24,7 @@ import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetPOIDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
+import com.locuslabs.sdk.llpublic.LLOnMarkerClickListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnPOIURLClickedListener;
 import com.locuslabs.sdk.llpublic.LLOnProgressListener;
@@ -275,7 +276,14 @@ public class MarkersActivity extends AppCompatActivity {
             public void successCallback(LLPOI llpoi) {
 
                 Bitmap markerImage = BitmapFactory.decodeResource(getResources(), R.drawable.starbucks);
-                llLocusMapsFragment.showMarker("MarkerID", llpoi.getLevel().getId(), llpoi.getLatLng(), markerImage);
+
+                llLocusMapsFragment.showMarker("MarkerID", llpoi.getLevel().getOrdinal(), llpoi.getLatLng(), markerImage, new LLOnMarkerClickListener() {
+                    @Override
+                    public void onMarkerClick(String s) {
+
+                        // Marker tapped with id s
+                    }
+                });
             }
 
             @Override
