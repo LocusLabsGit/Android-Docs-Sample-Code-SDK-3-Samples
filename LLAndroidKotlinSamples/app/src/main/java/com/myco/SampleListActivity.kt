@@ -32,6 +32,7 @@ class SampleListActivity : AppCompatActivity() {
         samples.add("Headless Mode")
         samples.add("Map Basics")
         samples.add("Markers")
+        samples.add("Multi Venue")
         samples.add("POI Button")
         samples.add("POI Show")
         samples.add("Search Auto Display")
@@ -68,6 +69,7 @@ class SampleListActivity : AppCompatActivity() {
             else if (sampleTitle == "Search MultiTerm") intent = Intent(this@SampleListActivity, SearchMultiTermActivity::class.java)
             else if (sampleTitle == "Search Proximity") intent = Intent(this@SampleListActivity, SearchProximityActivity::class.java)
             else if (sampleTitle == "Venue Data") intent = Intent(this@SampleListActivity, VenueDataActivity::class.java)
+            else if (sampleTitle == "Multi Venue") intent = Intent(this@SampleListActivity, MultiVenueActivity::class.java)
 
             startActivity(intent)
         }
@@ -97,7 +99,7 @@ class SampleListActivity : AppCompatActivity() {
             // Get view for row item
             val rowView = inflater.inflate(R.layout.sample_row, parent, false)
 
-            val titleTextView = rowView.findViewById(R.id.samplesTitleTV) as TextView
+            val titleTextView = rowView.findViewById(R.id.title_text_view) as TextView
 
             val sample = getItem(position)
             titleTextView.text = sample

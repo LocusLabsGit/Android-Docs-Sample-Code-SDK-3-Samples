@@ -52,6 +52,7 @@ public class SampleListActivity extends AppCompatActivity {
         samplesArray.add("Headless Mode");
         samplesArray.add("Map Basics");
         samplesArray.add("Markers");
+        samplesArray.add("Multi Venue");
         samplesArray.add("POI Button");
         samplesArray.add("POI Show");
         samplesArray.add("Search Auto Display");
@@ -90,6 +91,7 @@ public class SampleListActivity extends AppCompatActivity {
                 else if (sampleTitle.equals("Search MultiTerm")) intent = new Intent(SampleListActivity.this, SearchMultiTermActivity.class);
                 else if (sampleTitle.equals("Search Proximity")) intent = new Intent(SampleListActivity.this, SearchProximityActivity.class);
                 else if (sampleTitle.equals("Venue Data")) intent = new Intent(SampleListActivity.this, VenueDataActivity.class);
+                else if (sampleTitle.equals("Multi Venue")) intent = new Intent(SampleListActivity.this, MultiVenueActivity.class);
 
                 startActivity(intent);
 
@@ -124,7 +126,7 @@ public class SampleListActivity extends AppCompatActivity {
 
                 viewHolder = new ViewHolder();
 
-                viewHolder.titleTV = convertView.findViewById(R.id.samplesTitleTV);
+                viewHolder.titleTV = convertView.findViewById(R.id.title_text_view);
 
                 convertView.setTag(viewHolder);
             }
