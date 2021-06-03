@@ -28,6 +28,7 @@ class SampleListActivity : AppCompatActivity() {
         samples.add("Custom Theme")
         samples.add("Directions Show")
         samples.add("Directions - Steps & ETA")
+        samples.add("External Location Data")
         samples.add("Grab")
         samples.add("Headless Mode")
         samples.add("Map Basics")
@@ -70,6 +71,7 @@ class SampleListActivity : AppCompatActivity() {
             else if (sampleTitle == "Search Proximity") intent = Intent(this@SampleListActivity, SearchProximityActivity::class.java)
             else if (sampleTitle == "Venue Data") intent = Intent(this@SampleListActivity, VenueDataActivity::class.java)
             else if (sampleTitle == "Multi Venue") intent = Intent(this@SampleListActivity, MultiVenueActivity::class.java)
+            else if (sampleTitle == "External Location Data") intent = Intent(this@SampleListActivity, ExternalLocationDataActivity::class.java)
 
             startActivity(intent)
         }

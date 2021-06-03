@@ -48,6 +48,7 @@ public class SampleListActivity extends AppCompatActivity {
         samplesArray.add("Custom Theme");
         samplesArray.add("Directions Show");
         samplesArray.add("Directions - Steps & ETA");
+        samplesArray.add("External Location Data");
         samplesArray.add("Grab");
         samplesArray.add("Headless Mode");
         samplesArray.add("Map Basics");
@@ -92,6 +93,7 @@ public class SampleListActivity extends AppCompatActivity {
                 else if (sampleTitle.equals("Search Proximity")) intent = new Intent(SampleListActivity.this, SearchProximityActivity.class);
                 else if (sampleTitle.equals("Venue Data")) intent = new Intent(SampleListActivity.this, VenueDataActivity.class);
                 else if (sampleTitle.equals("Multi Venue")) intent = new Intent(SampleListActivity.this, MultiVenueActivity.class);
+                else if (sampleTitle.equals("External Location Data")) intent = new Intent(SampleListActivity.this, ExternalLocationDataActivity.class);
 
                 startActivity(intent);
 
