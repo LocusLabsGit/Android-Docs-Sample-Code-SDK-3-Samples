@@ -245,23 +245,12 @@ class VenueDataActivity : AppCompatActivity() {
         venueDB.getVenueDetails(venueID, object : LLOnGetVenueDetailsCallback {
             override fun successCallback(llVenue: LLVenue) {
                 var message = ""
-                for ((id, name, levels) in llVenue.buildings) {
-                    message = """
-                    ${message}Building name: $name
-                    Building id: $id
-                    
-                    """.trimIndent()
-                    for ((id1, ordinal) in levels) {
-                        message = """
-                        ${message}Floor level: $ordinal
-                        Floor id: $id1
-                        
-                        """.trimIndent()
+                llVenue.buildings.forEach { building ->
+                    message += "Building id: $building.id name: $building.name\n"
+                    building.levels.forEach { level ->
+                        message += "\t"
+                        message += "Floor id: $level.id level: $level.ordinal\n"
                     }
-                    message = """
-                    $message
-                    
-                    """.trimIndent()
                 }
                 val dialog = AlertDialog.Builder(this@VenueDataActivity)
                 dialog.setMessage(message)
