@@ -320,7 +320,7 @@ public class VenueDataActivity extends AppCompatActivity {
 
                     for (Level level: building.getLevels()) {
 
-                        message = message +"Floor level: " +String.valueOf(level.getOrdinal()) +"\nFloor id: " +level.getId() +"\n";
+                        message = message +"Floor level: " +(level.getOrdinal()) +"\nFloor id: " +level.getId() +"\n";
                     }
 
                     message = message +"\n";
