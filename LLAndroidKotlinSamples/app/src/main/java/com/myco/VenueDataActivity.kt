@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.locuslabs.sdk.llprivate.llPublicDI
 import com.locuslabs.sdk.llpublic.*
 
 
@@ -39,32 +38,32 @@ class VenueDataActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -221,17 +220,17 @@ class VenueDataActivity : AppCompatActivity() {
 
         val venueDB = LLVenueDatabase()
         venueDB.getVenueList(object : LLOnGetVenueListCallback {
-            override fun successCallback(llVenueList: LLVenueList) {
+            override fun successCallback(venueList: LLVenueList) {
                 var message = ""
-                for (venueID in llVenueList.keys) {
+                for (venueID in venueList.keys) {
                     message = """
-                $message${llVenueList[venueID]!!.name}
+                $message${venueList[venueID]!!.name}
                 
                 """.trimIndent()
                 }
                 val dialog = AlertDialog.Builder(this@VenueDataActivity)
                 dialog.setMessage(message)
-                dialog.setTitle("Account venues: (" + llVenueList.size.toString() + ")")
+                dialog.setTitle("Account venues: (" + venueList.size.toString() + ")")
                 dialog.setPositiveButton("OK", null)
                 dialog.create().show()
             }
@@ -240,12 +239,28 @@ class VenueDataActivity : AppCompatActivity() {
         })
     }
 
+    private fun getPOIs() {
+
+        val llpoiDatabase = LLPOIDatabase()
+        llpoiDatabase.getPOIList("lax", object : LLOnGetPOIListCallback {
+            override fun successCallback(pois: List<LLPOI>) {
+                for (poi in pois) {
+                    Log.d("POI", poi.name + ", " + poi.id)
+                }
+            }
+
+            override fun failureCallback(throwable: Throwable) {
+                Log.d("Error", "Error getting pois: " + throwable.localizedMessage)
+            }
+        })
+    }
+
     private fun getVenueDetails(venueID: String) {
         val venueDB = LLVenueDatabase()
         venueDB.getVenueDetails(venueID, object : LLOnGetVenueDetailsCallback {
-            override fun successCallback(llVenue: LLVenue) {
+            override fun successCallback(venue: LLVenue) {
                 var message = ""
-                llVenue.buildings.forEach { building ->
+                venue.buildings.forEach { building ->
                     message += "Building id: $building.id name: $building.name\n"
                     building.levels.forEach { level ->
                         message += "\t"

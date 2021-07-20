@@ -40,32 +40,32 @@ class BundledMapActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -143,7 +143,7 @@ class BundledMapActivity : AppCompatActivity() {
         for (i in accountIdsForMapPacks.indices) {
             val accountIdsForMapPack = accountIdsForMapPacks[i]
             val callback: LLOnUnpackCallback = object : LLOnUnpackCallback {
-                override fun onUnpack(b: Boolean, throwable: Throwable?) {
+                override fun onUnpack(didInstall: Boolean, throwable: Throwable?) {
                     if (throwable != null) {
                         Log.e("Log", "MapPack installation failed because: " +
                                 throwable.message)

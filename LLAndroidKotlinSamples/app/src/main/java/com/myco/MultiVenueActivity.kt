@@ -47,41 +47,41 @@ class MultiVenueActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun getVenueList() {
 
         val llVenueDatabase = LLVenueDatabase()
         llVenueDatabase.getVenueList(object : LLOnGetVenueListCallback {
-            override fun successCallback(llVenueList: LLVenueList) {
+            override fun successCallback(venueList: LLVenueList) {
                 val venueListEntries = ArrayList<LLVenueListEntry>()
-                for ((_, value) in llVenueList) {
+                for ((_, value) in venueList) {
                     venueListEntries.add(value)
                 }
                 val venueListAdapter: VenueListAdapter = VenueListAdapter(venueListEntries)
@@ -251,7 +251,6 @@ class MultiVenueActivity : AppCompatActivity() {
             val venueListEntry = venueListEntries[position]
             viewHolder.textView.text = venueListEntry.name
             viewHolder.itemView.setOnClickListener {
-                val venueListEntry = venueListEntries[position]
                 this@MultiVenueActivity.showVenue(venueListEntry)
             }
         }

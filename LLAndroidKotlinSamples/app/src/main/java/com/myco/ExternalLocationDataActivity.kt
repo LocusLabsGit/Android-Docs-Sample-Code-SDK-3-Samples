@@ -38,32 +38,32 @@ class ExternalLocationDataActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -212,7 +212,10 @@ class ExternalLocationDataActivity : AppCompatActivity() {
 
     private fun mapReady() {
 
-        mockExternalLocationData()
+        // This is the appropriate place to take most actions that affect the map
+
+        // Start mocking external location// Start mocking external location
+        Handler(Looper.myLooper()!!).postDelayed({ mockExternalLocationData() }, 5000)
     }
 
     private fun externalLocationUpdateReceived(

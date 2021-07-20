@@ -39,32 +39,32 @@ class POIButtonActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -86,14 +86,14 @@ class POIButtonActivity : AppCompatActivity() {
         }, false)
 
         LLDependencyInjector.singleton.poiExtraButtonHandler = object : LLPOIExtraButtonHandler {
-            override fun doShowExtraButtonForPOI(llVenue: LLVenue, llpoi: LLPOI): Boolean {
-                return if (llpoi.id == "870") {
+            override fun doShowExtraButtonForPOI(venue: LLVenue, poi: LLPOI): Boolean {
+                return if (poi.id == "870") {
                     true
                 } else false
             }
 
-            override fun getExtraButtonLabelForPOI(llVenue: LLVenue, llpoi: LLPOI): String {
-                return if (llpoi.id == "870") {
+            override fun getExtraButtonLabelForPOI(venue: LLVenue, poi: LLPOI): String {
+                return if (poi.id == "870") {
                     "Custom1"
                 }
                 else ""
@@ -110,8 +110,8 @@ class POIButtonActivity : AppCompatActivity() {
                 else markerDrawable!!
             }
 
-            override fun onExtraButtonClickedListener(llVenue: LLVenue, llpoi: LLPOI) {
-                if (llpoi.id == "870") {
+            override fun onExtraButtonClickedListener(venue: LLVenue, poi: LLPOI) {
+                if (poi.id == "870") {
                     Log.d("Log", "Custom1 button tapped")
                 }
             }
