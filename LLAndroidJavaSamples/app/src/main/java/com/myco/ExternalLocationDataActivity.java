@@ -258,8 +258,14 @@ public class ExternalLocationDataActivity extends AppCompatActivity {
 
     private void mapReady() {
 
-        // This is the appropriate place to take most actions that affect the map
-        mockExternalLocationData();
+        // Start mocking external location
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                mockExternalLocationData();
+            }
+        }, 5000);
     }
 
     private void externalLocationUpdateReceived(double lat, double lon, String floorID, double accuracy, double heading) {

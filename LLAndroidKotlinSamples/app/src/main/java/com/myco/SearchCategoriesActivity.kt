@@ -39,32 +39,32 @@ class SearchCategoriesActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -218,10 +218,10 @@ class SearchCategoriesActivity : AppCompatActivity() {
         searchTerms.add("gate:Gate 64A")
 
         poiDatabase.getSearchResults("lax", listOf<List<String>>(searchTerms), null, null, null, Locale.getDefault(), object : LLOnGetSearchResultsCallback {
-            override fun successCallback(list: List<LLPOI>) {
+            override fun successCallback(pois: List<LLPOI>) {
                 var message = ""
                 var count = 0
-                for (poi in list) {
+                for (poi in pois) {
                     message = """
                 $message${poi.name}
                 

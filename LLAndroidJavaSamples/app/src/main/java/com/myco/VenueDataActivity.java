@@ -26,6 +26,7 @@ import com.locuslabs.sdk.llpublic.LLLevel;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetPOIDetailsCallback;
+import com.locuslabs.sdk.llpublic.LLOnGetPOIListCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
 import com.locuslabs.sdk.llpublic.LLOnPOIPhoneClickedListener;
@@ -41,6 +42,7 @@ import com.locuslabs.sdk.llpublic.LLVenueList;
 import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
@@ -272,8 +274,30 @@ public class VenueDataActivity extends AppCompatActivity {
 
     private void mapReady() {
 
+        getPOIs();
         getVenues();
         getVenueDetails("lax");
+    }
+
+    private void getPOIs() {
+
+        LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
+        llpoiDatabase.getPOIList("lax", new LLOnGetPOIListCallback() {
+            @Override
+            public void successCallback(List<LLPOI> list) {
+
+                for (LLPOI poi: list) {
+
+                    Log.d("POI", poi.getName() +", " +poi.getId());
+                }
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+                Log.d("Error", "Error getting pois: " +throwable.getLocalizedMessage());
+            }
+        });
     }
 
     private void getVenues() {
@@ -311,10 +335,10 @@ public class VenueDataActivity extends AppCompatActivity {
         venueDB.getVenueDetails(venueID, new LLOnGetVenueDetailsCallback() {
             @Override
             public void successCallback(LLVenue llVenue) {
-
+                
                 String message = "";
 
-                for (Building building: llVenue.getBuildings()) {
+                for (Building building: llVenue.getVenue().getBuildings()) {
 
                     message = message +"Building name: " +building.getName() +"\nBuilding id: " +building.getId() +"\n";
 

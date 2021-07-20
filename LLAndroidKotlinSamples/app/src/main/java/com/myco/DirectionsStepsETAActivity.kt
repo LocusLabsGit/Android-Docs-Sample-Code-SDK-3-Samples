@@ -39,32 +39,32 @@ class DirectionsStepsETAActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        llLocusMapsFragment?.onStart()
+        llLocusMapsFragment.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        llLocusMapsFragment?.onPause()
+        llLocusMapsFragment.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onStop()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        llLocusMapsFragment?.onStop()
+        llLocusMapsFragment.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        llLocusMapsFragment?.onResume()
+        llLocusMapsFragment.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        llLocusMapsFragment?.onDestroy()
+        llLocusMapsFragment.onDestroy()
     }
 
     private fun initLocusMaps() {
@@ -218,14 +218,14 @@ class DirectionsStepsETAActivity : AppCompatActivity() {
 
         // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
         navDB.getDirections("lax", "1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes, object : LLOnGetDirectionsCallback {
-            override fun successCallback(llNavPath: LLNavPath) {
-                var message = """ETA(secs): ${llNavPath.transitTime()}
+            override fun successCallback(navPath: LLNavPath) {
+                var message = """ETA(secs): ${navPath.transitTime()}
              
              Segments:
              
              
              """.trimIndent()
-                for (segment in llNavPath.segments(Locale.getDefault())) {
+                for (segment in navPath.segments(Locale.getDefault())) {
                     message = """
                 $message$segment
                 
