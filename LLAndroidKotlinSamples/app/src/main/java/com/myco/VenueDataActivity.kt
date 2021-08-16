@@ -255,6 +255,19 @@ class VenueDataActivity : AppCompatActivity() {
         })
     }
 
+    private fun getPOI(poiID: String) {
+        val llpoiDatabase = LLPOIDatabase()
+        llpoiDatabase.getPOIDetails("lax", poiID, object : LLOnGetPOIDetailsCallback() {
+            fun successCallback(llpoi: LLPOI) {
+                Log.d("POI", llpoi.getName().toString() + ", " + llpoi.getId())
+            }
+
+            fun failureCallback(throwable: Throwable) {
+                Log.d("Error", "Error getting pois: " + throwable.localizedMessage)
+            }
+        })
+    }
+
     private fun getVenueDetails(venueID: String) {
         val venueDB = LLVenueDatabase()
         venueDB.getVenueDetails(venueID, object : LLOnGetVenueDetailsCallback {
