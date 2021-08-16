@@ -300,6 +300,24 @@ public class VenueDataActivity extends AppCompatActivity {
         });
     }
 
+    private void getPOI(String poiID) {
+
+        LLPOIDatabase llpoiDatabase = new LLPOIDatabase();
+        llpoiDatabase.getPOIDetails("lax", poiID, new LLOnGetPOIDetailsCallback() {
+            @Override
+            public void successCallback(LLPOI llpoi) {
+
+                Log.d("POI", llpoi.getName() +", " +llpoi.getId());
+            }
+
+            @Override
+            public void failureCallback(Throwable throwable) {
+
+                Log.d("Error", "Error getting pois: " +throwable.getLocalizedMessage());
+            }
+        });
+    }
+
     private void getVenues() {
 
         LLVenueDatabase venueDB = new LLVenueDatabase();
