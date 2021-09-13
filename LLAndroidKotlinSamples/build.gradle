@@ -17,7 +17,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        jcenter() // Only needed if integrating the GRAB SDK
+        mavenCentral()
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
             authentication {
