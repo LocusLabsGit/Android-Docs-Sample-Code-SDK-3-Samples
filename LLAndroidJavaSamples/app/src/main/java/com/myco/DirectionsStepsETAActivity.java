@@ -22,6 +22,8 @@ import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
 import com.locuslabs.sdk.llpublic.LLNavAccessibilityType;
 import com.locuslabs.sdk.llpublic.LLNavPath;
 import com.locuslabs.sdk.llpublic.LLNavigationDatabase;
+import com.locuslabs.sdk.llpublic.LLNavigationPoint;
+import com.locuslabs.sdk.llpublic.LLNavigationPointForPOI;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetDirectionsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
@@ -278,8 +280,11 @@ public class DirectionsStepsETAActivity extends AppCompatActivity {
         Map<String, List<String>> securityQueueTypes = new HashMap<>();
         LLNavigationDatabase navDB = new LLNavigationDatabase();
 
+        LLNavigationPoint startPoint =  new LLNavigationPointForPOI("1025");
+        LLNavigationPoint endPoint =  new LLNavigationPointForPOI("566");
+
         // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
-        navDB.getDirections("lax", "1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes, new LLOnGetDirectionsCallback() {
+        navDB.getDirections("lax", startPoint, endPoint, LLNavAccessibilityType.Direct, securityQueueTypes, new LLOnGetDirectionsCallback() {
             @Override
             public void successCallback(LLNavPath llNavPath) {
 

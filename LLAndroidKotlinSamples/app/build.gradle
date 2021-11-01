@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation 'com.locuslabs:locuslabs-android-sdk:3.2.4'
+    implementation 'com.locuslabs:locuslabs-android-sdk:3.2.15'
 
     // The following is only necessary when integrating Grab
     implementation (name: "grab-framework-1.1.34", ext: "aar")

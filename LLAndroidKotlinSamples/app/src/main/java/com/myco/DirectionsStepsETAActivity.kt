@@ -216,8 +216,11 @@ class DirectionsStepsETAActivity : AppCompatActivity() {
         val securityQueueTypes: Map<String, List<String>> = HashMap()
         val navDB = LLNavigationDatabase()
 
+        val startPoint: LLNavigationPoint = LLNavigationPointForPOI("1025")
+        val endPoint: LLNavigationPoint = LLNavigationPointForPOI("566")
+
         // Note that another signature of this method takes LLNavigationPoints in place of POI IDs. This method can also navigate from "current location" using the LLNavigationPointForCurrentLocation class
-        navDB.getDirections("lax", "1025", "566", LLNavAccessibilityType.Direct, securityQueueTypes, object : LLOnGetDirectionsCallback {
+        navDB.getDirections("lax", startPoint, endPoint, LLNavAccessibilityType.Direct, securityQueueTypes, object : LLOnGetDirectionsCallback {
             override fun successCallback(navPath: LLNavPath) {
                 var message = """ETA(secs): ${navPath.transitTime()}
              

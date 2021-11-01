@@ -240,11 +240,10 @@ class VenueDataActivity : AppCompatActivity() {
     }
 
     private fun getPOIs() {
-
         val llpoiDatabase = LLPOIDatabase()
         llpoiDatabase.getPOIList("lax", object : LLOnGetPOIListCallback {
-            override fun successCallback(pois: List<LLPOI>) {
-                for (poi in pois) {
+            override fun successCallback(list: List<LLPOI>) {
+                for (poi in list) {
                     Log.d("POI", poi.name + ", " + poi.id)
                 }
             }
@@ -257,12 +256,13 @@ class VenueDataActivity : AppCompatActivity() {
 
     private fun getPOI(poiID: String) {
         val llpoiDatabase = LLPOIDatabase()
-        llpoiDatabase.getPOIDetails("lax", poiID, object : LLOnGetPOIDetailsCallback() {
-            fun successCallback(llpoi: LLPOI) {
-                Log.d("POI", llpoi.getName().toString() + ", " + llpoi.getId())
+        llpoiDatabase.getPOIDetails("lax", poiID, object : LLOnGetPOIDetailsCallback {
+
+            override fun successCallback(llpoi: LLPOI) {
+                Log.d("POI", llpoi.name + ", " + llpoi.id)
             }
 
-            fun failureCallback(throwable: Throwable) {
+            override fun failureCallback(throwable: Throwable) {
                 Log.d("Error", "Error getting pois: " + throwable.localizedMessage)
             }
         })
