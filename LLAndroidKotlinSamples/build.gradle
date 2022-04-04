@@ -1,12 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.4.21"
+    ext.kotlin_version = "1.6.20" //"1.4.21"
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -17,7 +17,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter() // Only needed if integrating the GRAB SDK
         mavenCentral()
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
@@ -42,6 +41,13 @@ allprojects {
             authentication {
                 header(HttpHeaderAuthentication)
             }
+        }
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://dl.bintray.com/amulyakhare/maven'
         }
     }
 }
