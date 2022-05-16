@@ -235,7 +235,7 @@ class ExternalLocationDataActivity : AppCompatActivity() {
         // If you are not able to compile this mapping table yourself, please send us a list (help@locuslabs.com) of
         // the building names and associated floor ids as provided by your external mapping provider and we will compile the mapping table
         var locusLabsFloorID: String? = null
-        if (floorID == "T48L3") locusLabsFloorID = "lax-south-departures"
+        if (floorID == "T48L3") locusLabsFloorID = "lax-terminal6-departures"
         return locusLabsFloorID ?: ""
     }
 
