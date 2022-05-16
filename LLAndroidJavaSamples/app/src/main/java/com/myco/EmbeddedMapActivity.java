@@ -267,5 +267,6 @@ public class EmbeddedMapActivity extends AppCompatActivity {
     private void mapReady() {
 
         // This is the appropriate place to take most actions that affect the map
+        
     }
 }

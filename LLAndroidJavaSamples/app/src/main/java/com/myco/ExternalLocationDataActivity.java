@@ -283,7 +283,7 @@ public class ExternalLocationDataActivity extends AppCompatActivity {
 
         String locusLabsFloorID = null;
 
-        if (floorID.equals("T48L3")) locusLabsFloorID = "lax-south-departures";
+        if (floorID.equals("T48L3")) locusLabsFloorID = "lax-terminal6-departures";
 
         return (locusLabsFloorID != null ? locusLabsFloorID : "");
     }
