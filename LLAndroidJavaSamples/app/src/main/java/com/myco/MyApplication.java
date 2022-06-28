@@ -16,6 +16,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         LLConfiguration.Companion.getSingleton().setApplicationContext(getApplicationContext());
-        LLConfiguration.Companion.getSingleton().setAccountID("A11F4Y6SZRXH4X");
+        //LLConfiguration.Companion.getSingleton().setAccountID("A11F4Y6SZRXH4X");//ll
+          LLConfiguration.Companion.getSingleton().setAccountID("A1QDRD9FJN12J2"); // MWAA
     }
 }

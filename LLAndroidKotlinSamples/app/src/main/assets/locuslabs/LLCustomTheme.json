@@ -26,7 +26,8 @@
         "statusOnTimeAndOpenBackground": "#219653",
         "statusOnTimeAndOpenText": "#FFFFFF",
         "statusClosedDepartedArrivedOccupiedBackground": "#EBEBEB",
-        "statusClosedDepartedArrivedOccupiedText": "#333333"
+        "statusClosedDepartedArrivedOccupiedText": "#333333",
+        "statusSuccessBackground": "#229653"
     },
     "fonts": {
         "H1_Regular": {
