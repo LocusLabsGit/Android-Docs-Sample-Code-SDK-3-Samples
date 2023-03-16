@@ -234,5 +234,11 @@ class MarkersActivity  : AppCompatActivity() {
 
             override fun failureCallback(throwable: Throwable) {}
         })
+
+        // Override poi badge
+
+        // Override poi badge
+        val poiIcon = BitmapFactory.decodeResource(resources, R.drawable.newspaper_icon)
+        llLocusMapsFragment.overrideMapBadge("869", poiIcon)
     }
 }

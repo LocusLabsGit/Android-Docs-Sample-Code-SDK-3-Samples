@@ -291,5 +291,9 @@ public class MarkersActivity extends AppCompatActivity {
 
             }
         });
+
+        // Override poi badge
+        Bitmap poiIcon = BitmapFactory.decodeResource(getResources(), R.drawable.newspaper_icon);
+        llLocusMapsFragment.overrideMapBadge("869", poiIcon);
     }
 }
