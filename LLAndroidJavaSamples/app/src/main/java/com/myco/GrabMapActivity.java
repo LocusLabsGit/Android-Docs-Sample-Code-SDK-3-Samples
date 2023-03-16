@@ -57,6 +57,7 @@ public class GrabMapActivity extends AppCompatActivity {
         initializationAnimationView = findViewById(R.id.initializationAnimationView);
 
         LLConfiguration.Companion.getSingleton().setGrabCustomerId("abc2e5a1cdcebc486a6710b484aeaf9d");
+
         initLocusMaps();
         initInitializationProgressIndicator();
         showInitializationProgressIndicator();
@@ -171,6 +172,7 @@ public class GrabMapActivity extends AppCompatActivity {
             public void onWarning(Throwable throwable) {
 
                 // SDK warnings are sent here
+                Log.e("LOG", "stack warning: " + Log.getStackTraceString(throwable));
             }
         });
 
@@ -193,7 +195,7 @@ public class GrabMapActivity extends AppCompatActivity {
             @Override
             public void successCallback(LLVenueList llVenueList) {
 
-                String venueID = "dca";//lax
+                String venueID = "lax";
 
                 LLVenueListEntry venueListEntry = llVenueList.get(venueID);
                 if (venueListEntry == null)  {
