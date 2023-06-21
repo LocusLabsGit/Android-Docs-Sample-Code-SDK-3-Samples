@@ -23,6 +23,7 @@ class SampleListActivity : AppCompatActivity() {
 
         samples.add("Fullscreen Map")
         samples.add("Embedded Map")
+        samples.add("Embedded Map (Multiple)")
         samples.add("Bundled Map")
         samples.add("Custom Actions")
         samples.add("Custom Theme")
@@ -53,6 +54,7 @@ class SampleListActivity : AppCompatActivity() {
 
             if (sampleTitle == "Fullscreen Map") intent = Intent(this@SampleListActivity, FullscreenMapActivity::class.java)
             else if (sampleTitle == "Embedded Map") intent = Intent(this@SampleListActivity, EmbeddedMapActivity::class.java)
+            else if (sampleTitle == "Embedded Map (Multiple)") intent = Intent(this@SampleListActivity, MultipleEmbeddedMapsActivity::class.java)
             else if (sampleTitle == "Bundled Map") intent = Intent(this@SampleListActivity, BundledMapActivity::class.java)
             else if (sampleTitle == "Custom Actions") intent = Intent(this@SampleListActivity, CustomActionsActivity::class.java)
             else if (sampleTitle == "Custom Theme") intent = Intent(this@SampleListActivity, CustomThemeActivity::class.java)
