@@ -20,6 +20,9 @@ import android.widget.ProgressBar;
 import com.locuslabs.sdk.llpublic.LLConfiguration;
 import com.locuslabs.sdk.llpublic.LLDependencyInjector;
 import com.locuslabs.sdk.llpublic.LLLocusMapsFragment;
+import com.locuslabs.sdk.llpublic.LLNavAccessibilityType;
+import com.locuslabs.sdk.llpublic.LLNavigationPoint;
+import com.locuslabs.sdk.llpublic.LLNavigationPointForPOI;
 import com.locuslabs.sdk.llpublic.LLOnFailureListener;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueDetailsCallback;
 import com.locuslabs.sdk.llpublic.LLOnGetVenueListCallback;
@@ -34,6 +37,9 @@ import com.locuslabs.sdk.llpublic.LLVenueList;
 import com.locuslabs.sdk.llpublic.LLVenueListEntry;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.FRACTION_TO_PERCENT_CONVERSION_RATIO;
 import static com.locuslabs.sdk.llpublic.LLConstantsKt.PROGRESS_BAR_FRACTION_FINISH;
@@ -267,6 +273,5 @@ public class EmbeddedMapActivity extends AppCompatActivity {
     private void mapReady() {
 
         // This is the appropriate place to take most actions that affect the map
-        
     }
 }
